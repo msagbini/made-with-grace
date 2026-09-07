@@ -181,10 +181,7 @@ STRIPE_WEBHOOK_SECRET=whsec_[YOUR_WEBHOOK_SECRET]
 **Purpose:** Validates webhooks from Stripe  
 **Location:** [dashboard.stripe.com](https://dashboard.stripe.com) → Developers → Webhooks → Your Endpoint → Signing Secret
 
-**Example:**
-```
-whsec_test_secret_12345678901234567890123456789012
-```
+**Note:** Get your actual key from Stripe dashboard
 
 **Security:**
 - Only used for webhook validation
@@ -216,10 +213,7 @@ RESEND_API_KEY=re_[YOUR_API_KEY]
 **Format:** Starts with `re_`, ~30+ characters  
 **Location:** [resend.com](https://resend.com) → API Keys → Create API Key
 
-**Example:**
-```
-re_abc123XYZ1234567890abcdefghijk
-```
+**Note:** Get your actual key from resend.com dashboard
 
 **Security:**
 - Different key for production/development
