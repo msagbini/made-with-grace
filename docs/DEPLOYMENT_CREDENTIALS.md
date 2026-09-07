@@ -138,8 +138,9 @@ NEXT_PUBLIC_STRIPE_KEY=pk_live_[YOUR_KEY]
 
 **Example:**
 ```
-pk_live_51Iv3AkAy4Xf7Q7KZJq8M9oL2wR3eT5uI6vN7cO8pB9sQ0rH1jK2lM3nP4qR5sT6uV7wX8yZ9aB0cD1eF2gH3iJ4kL5
+pk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
+(Get your actual key from dashboard.stripe.com)
 
 **Where to use:**
 - Vercel frontend environment variables (visible in browser)
@@ -157,8 +158,9 @@ STRIPE_SECRET_KEY=sk_live_[YOUR_SECRET]
 
 **Example:**
 ```
-sk_live_51Iv3AkAy4Xf7Q7KZqW2nR3oT4pL5sM6tU7vV8wX9yA0zB1cC2dD3eE4fF5gG6hH7iI8jJ9kK0lL1mM2nN3oO4pP5
+sk_live_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ```
+(Get your actual key from dashboard.stripe.com)
 
 **Security:**
 - Never expose in frontend
