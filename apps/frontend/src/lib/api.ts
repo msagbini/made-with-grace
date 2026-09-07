@@ -139,4 +139,106 @@ export const healthApi = {
   },
 };
 
+// ============================================
+// Admin API
+// ============================================
+
+export const adminApi = {
+  // Auth
+  login: async (email: string, password: string) => {
+    const { data } = await client.post('/admin/auth/login', { email, password });
+    return data;
+  },
+
+  register: async (email: string, password: string, name: string) => {
+    const { data } = await client.post('/admin/auth/register', { email, password, name });
+    return data;
+  },
+
+  getCurrentUser: async () => {
+    const { data } = await client.get('/admin/auth/me');
+    return data;
+  },
+
+  // Dashboard
+  getDashboardStats: async () => {
+    const { data } = await client.get('/admin/stats');
+    return data;
+  },
+
+  // Orders
+  getOrders: async (page = 1, limit = 20, status?: string, search?: string) => {
+    const { data } = await client.get('/admin/orders', {
+      params: { page, limit, status, search },
+    });
+    return data;
+  },
+
+  getOrder: async (id: string) => {
+    const { data } = await client.get(`/admin/orders/${id}`);
+    return data;
+  },
+
+  updateOrderStatus: async (id: string, status: string, notes?: string) => {
+    const { data } = await client.put(`/admin/orders/${id}/status`, { status, notes });
+    return data;
+  },
+
+  // Products
+  getAdminProducts: async (page = 1, limit = 20, search?: string, categoryId?: string) => {
+    const { data } = await client.get('/admin/products', {
+      params: { page, limit, search, categoryId },
+    });
+    return data;
+  },
+
+  getAdminProduct: async (id: string) => {
+    const { data } = await client.get(`/admin/products/${id}`);
+    return data;
+  },
+
+  createProduct: async (product: any) => {
+    const { data } = await client.post('/admin/products', product);
+    return data;
+  },
+
+  updateProduct: async (id: string, product: any) => {
+    const { data } = await client.put(`/admin/products/${id}`, product);
+    return data;
+  },
+
+  deleteProduct: async (id: string) => {
+    const { data } = await client.delete(`/admin/products/${id}`);
+    return data;
+  },
+
+  // Categories
+  getAdminCategories: async (page = 1, limit = 20) => {
+    const { data } = await client.get('/admin/categories', {
+      params: { page, limit },
+    });
+    return data;
+  },
+
+  getAdminCategory: async (id: string) => {
+    const { data } = await client.get(`/admin/categories/${id}`);
+    return data;
+  },
+
+  createCategory: async (category: any) => {
+    const { data } = await client.post('/admin/categories', category);
+    return data;
+  },
+
+  updateCategory: async (id: string, category: any) => {
+    const { data } = await client.put(`/admin/categories/${id}`, category);
+    return data;
+  },
+
+  deleteCategory: async (id: string) => {
+    const { data } = await client.delete(`/admin/categories/${id}`);
+    return data;
+  },
+};
+
 export default client;
