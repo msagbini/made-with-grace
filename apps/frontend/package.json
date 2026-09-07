@@ -25,7 +25,9 @@
     "clsx": "^2.0.0",
     "three": "^r157",
     "react-three-fiber": "^8.14.0",
-    "drei": "^9.88.0"
+    "drei": "^9.88.0",
+    "@stripe/react-stripe-js": "^2.4.0",
+    "@stripe/js": "^1.46.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.0",
