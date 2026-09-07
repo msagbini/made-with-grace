@@ -1,0 +1,246 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// CATÁLOGO
+// ============================================
+
+model Category {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  description  String?
+  slug         String   @unique
+  basePrice    Float
+  image        String?
+  displayOrder Int      @default(0)
+  active       Boolean  @default(true)
+
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Product {
+  id              String   @id @default(cuid())
+  categoryId      String
+  category        Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name            String
+  description     String?
+  slug            String   @unique
+  image           String?
+  price           Float?
+  customizations  Json     @default("[]")
+  active          Boolean  @default(true)
+  displayOrder    Int      @default(0)
+
+  orderItems OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([active])
+  @@map("products")
+}
+
+// ============================================
+// CLIENTES Y PEDIDOS
+// ============================================
+
+model Customer {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  phone     String?
+  address   String?
+  city      String?
+  zip       String?
+  country   String?
+
+  orders Order[]
+  files  File[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@map("customers")
+}
+
+model Order {
+  id               String   @id @default(cuid())
+  customerId       String
+  customer         Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  subtotal         Float
+  expressFee       Float    @default(0)
+  shippingCost     Float    @default(0)
+  tax              Float    @default(0)
+  total            Float
+
+  status           OrderStatus @default(PENDING)
+  deliveryDate     DateTime?
+  notes            String?
+
+  paymentIntentId  String?  @unique
+  payment          Payment?
+
+  items            OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([deliveryDate])
+  @@map("orders")
+}
+
+enum OrderStatus {
+  PENDING           // Creado pero sin pagar
+  PAID              // Pago realizado, esperando confirmación
+  CONFIRMED         // Admin confirmó, listo para producción
+  IN_PRODUCTION     // En proceso de elaboración
+  READY_FOR_PICKUP  // Listo para recoger/enviar
+  SHIPPED           // Enviado
+  DELIVERED         // Entregado
+  CANCELLED         // Cancelado
+  REFUNDED          // Reembolsado
+}
+
+model OrderItem {
+  id               String   @id @default(cuid())
+  orderId          String
+  order            Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId        String
+  product          Product  @relation(fields: [productId], references: [id])
+
+  quantity         Int
+  unitPrice        Float
+  expressApplied   Boolean  @default(false)
+  expressFee       Float    @default(0)
+  subtotal         Float
+
+  customizations   Json     @default("{}")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+model Payment {
+  id                   String   @id @default(cuid())
+  orderId              String   @unique
+  order                Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  provider             PaymentProvider
+  providerPaymentId    String   @unique
+
+  amount               Float
+  currency             String   @default("USD")
+  status               PaymentStatus @default(PENDING)
+
+  metadata             Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([providerPaymentId])
+  @@map("payments")
+}
+
+enum PaymentProvider {
+  STRIPE
+  MERCADOPAGO
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+// ============================================
+// ARCHIVOS Y MEDIA
+// ============================================
+
+model File {
+  id            String   @id @default(cuid())
+  customerId    String?
+  customer      Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  originalName  String
+  storageKey    String   @unique
+  mimeType      String
+  size          Int
+  url           String
+
+  createdAt DateTime @default(now())
+
+  @@index([customerId])
+  @@index([storageKey])
+  @@map("files")
+}
+
+// ============================================
+// ADMIN / CONFIGURACIÓN
+// ============================================
+
+model AdminUser {
+  id       String  @id @default(cuid())
+  email    String  @unique
+  password String
+  name     String
+  role     UserRole @default(ADMIN)
+  active   Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@map("admin_users")
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  SUPPORT
+}
+
+model AppConfig {
+  id                  String @id @default(cuid())
+
+  // Precios y recargos
+  defaultExpressFee   Float  @default(0.5) // 50% recargo
+  minOrderQuantity    Int    @default(1)
+  maxOrderQuantity    Int    @default(100)
+
+  // Límites de archivo
+  maxFileSize         Int    @default(5242880) // 5MB
+  allowedFileTypes    String @default("jpg,jpeg,png,webp")
+
+  // Configuración de entrega
+  expressDeliveryHours Int   @default(24)
+
+  updatedAt DateTime @updatedAt
+
+  @@map("app_configs")
+}
