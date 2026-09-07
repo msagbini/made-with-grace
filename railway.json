@@ -1,0 +1,38 @@
+{
+  "version": 3,
+  "build": {
+    "builder": "dockerfile",
+    "context": "apps/backend"
+  },
+  "deploy": {
+    "startCommand": "node dist/main",
+    "restartPolicyMaxRetries": 5,
+    "healthchecks": {
+      "enabled": true,
+      "interval": 30,
+      "timeout": 10,
+      "initialDelaySeconds": 30,
+      "cmd": ["node", "-e", "require('http').get('http://localhost:3001/health', (r) => r.statusCode === 200 ? process.exit(0) : process.exit(1))"]
+    }
+  },
+  "envs": [
+    "NODE_ENV",
+    "PORT",
+    "DATABASE_URL",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_PUBLIC_KEY",
+    "STRIPE_WEBHOOK_SECRET",
+    "RESEND_API_KEY",
+    "RESEND_FROM_EMAIL",
+    "ADMIN_EMAIL",
+    "AWS_REGION",
+    "AWS_ACCESS_KEY_ID",
+    "AWS_SECRET_ACCESS_KEY",
+    "AWS_S3_BUCKET",
+    "AWS_S3_ENDPOINT",
+    "JWT_SECRET",
+    "JWT_EXPIRATION",
+    "BCRYPT_ROUNDS",
+    "NEXT_PUBLIC_API_URL"
+  ]
+}
