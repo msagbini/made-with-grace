@@ -8,9 +8,6 @@
     "NEXT_PUBLIC_SITE_NAME": "Sweet Grace",
     "NEXT_PUBLIC_SITE_URL": "@site_url"
   },
-  "envIntegration": {
-    "provider": "vercel"
-  },
   "regions": ["iad1"],
   "functions": {
     "apps/frontend/**/*.ts": {
