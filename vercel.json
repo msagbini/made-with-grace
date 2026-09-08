@@ -4,9 +4,7 @@
   "installCommand": "npm install",
   "outputDirectory": "apps/frontend/.next",
   "env": {
-    "NEXT_PUBLIC_API_URL": "@api_url",
-    "NEXT_PUBLIC_SITE_NAME": "Sweet Grace",
-    "NEXT_PUBLIC_SITE_URL": "@site_url"
+    "NEXT_PUBLIC_SITE_NAME": "Sweet Grace"
   },
   "regions": ["iad1"],
   "functions": {
