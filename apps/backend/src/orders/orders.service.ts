@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, OrderStatus } from '@prisma/client';
 import { PrismaService } from '@/prisma/prisma.service';
 import { CreateOrderDto, UpdateOrderStatusDto } from './dto/create-order.dto';
 
@@ -130,7 +130,7 @@ export class OrdersService {
    */
   async listOrders(status?: string, skip = 0, take = 20) {
     return this.prisma.order.findMany({
-      where: status ? { status } : {},
+      where: status ? { status: status as OrderStatus } : {},
       include: {
         items: true,
         customer: { select: { email: true, name: true } },
@@ -157,7 +157,7 @@ export class OrdersService {
     return this.prisma.order.update({
       where: { id },
       data: {
-        status: updateDto.status,
+        status: updateDto.status as OrderStatus,
         notes: updateDto.notes || order.notes,
         updatedAt: new Date(),
       },

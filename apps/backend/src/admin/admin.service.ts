@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { OrderStatus } from '@prisma/client';
 import { PrismaService } from '@/prisma/prisma.service';
 
 @Injectable()
@@ -118,7 +119,7 @@ export class AdminService {
     return order;
   }
 
-  async updateOrderStatus(id: string, status: string, notes?: string) {
+  async updateOrderStatus(id: string, status: OrderStatus, notes?: string) {
     const order = await this.prisma.order.findUnique({
       where: { id },
     });
