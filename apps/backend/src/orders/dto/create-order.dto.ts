@@ -1,5 +1,6 @@
-import { IsString, IsEmail, IsArray, ValidateNested, IsNumber, IsOptional, IsDateString, IsBoolean } from 'class-validator';
+import { IsString, IsEmail, IsArray, ValidateNested, IsNumber, IsOptional, IsDateString, IsBoolean, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
+import { OrderStatus } from '@prisma/client';
 
 export class OrderItemDto {
   @IsString()
@@ -69,8 +70,8 @@ export class CreateOrderDto {
 }
 
 export class UpdateOrderStatusDto {
-  @IsString()
-  status: string;
+  @IsEnum(OrderStatus)
+  status: OrderStatus;
 
   @IsOptional()
   @IsString()

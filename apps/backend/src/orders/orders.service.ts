@@ -130,7 +130,7 @@ export class OrdersService {
    */
   async listOrders(status?: string, skip = 0, take = 20) {
     return this.prisma.order.findMany({
-      where: status ? { status: status as OrderStatus } : {},
+      where: status ? { status: status as unknown as OrderStatus } : {},
       include: {
         items: true,
         customer: { select: { email: true, name: true } },
@@ -157,7 +157,7 @@ export class OrdersService {
     return this.prisma.order.update({
       where: { id },
       data: {
-        status: updateDto.status as OrderStatus,
+        status: updateDto.status,
         notes: updateDto.notes || order.notes,
         updatedAt: new Date(),
       },
