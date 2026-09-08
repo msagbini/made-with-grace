@@ -10,7 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { OrderStatus } from '@prisma/client';
 import { AdminService } from './admin.service';
+import { UpdateOrderStatusDto } from '@/orders/dto/create-order.dto';
 import { JwtAuthGuard } from '@/auth/jwt.guard';
 
 @ApiTags('Admin')
@@ -59,7 +61,7 @@ export class AdminController {
   @ApiOperation({ summary: 'Update order status' })
   async updateOrderStatus(
     @Param('id') id: string,
-    @Body() body: { status: string; notes?: string },
+    @Body() body: UpdateOrderStatusDto,
   ) {
     return this.adminService.updateOrderStatus(id, body.status, body.notes);
   }
