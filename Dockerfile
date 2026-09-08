@@ -42,6 +42,9 @@ COPY --from=builder /app/node_modules ./node_modules
 # Set NODE_ENV
 ENV NODE_ENV=production
 
+# Set DATABASE_URL fallback (MUST be configured in Railway)
+ENV DATABASE_URL=postgresql://user:password@localhost:5432/sweet_grace
+
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3001/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
