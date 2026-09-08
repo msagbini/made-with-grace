@@ -7,7 +7,6 @@ WORKDIR /app
 COPY package*.json ./
 COPY apps/backend/package*.json ./apps/backend/
 COPY apps/frontend/package*.json ./apps/frontend/
-COPY apps/shared/package*.json ./apps/shared/ 2>/dev/null || true
 
 # Install all dependencies
 RUN npm install
@@ -29,7 +28,6 @@ RUN apk add --no-cache dumb-init
 # Copy package files for dependency installation
 COPY package*.json ./
 COPY apps/backend/package*.json ./apps/backend/
-COPY apps/shared/package*.json ./apps/shared/ 2>/dev/null || true
 
 # Install production dependencies
 RUN npm install --omit=dev --workspaces
