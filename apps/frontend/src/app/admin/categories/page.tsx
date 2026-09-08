@@ -244,7 +244,7 @@ export default function AdminCategoriesPage() {
                       <button
                         onClick={() => handleDelete(category.id)}
                         className="text-red-600 hover:text-red-900"
-                        disabled={category._count?.products && category._count.products > 0}
+                        disabled={!!(category._count?.products && category._count.products > 0)}
                       >
                         Delete
                       </button>

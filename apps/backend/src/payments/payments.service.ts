@@ -1,5 +1,6 @@
 import { Injectable, BadRequestException, NotFoundException, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '@/prisma/prisma.service';
 import Stripe from 'stripe';
 
@@ -12,8 +13,8 @@ export class PaymentsService {
     private prisma: PrismaService,
     private configService: ConfigService,
   ) {
-    this.stripe = new Stripe(this.configService.get<string>('STRIPE_SECRET_KEY'), {
-      apiVersion: '2023-10-16',
+    this.stripe = new Stripe(this.configService.get<string>('STRIPE_SECRET_KEY') || '', {
+      apiVersion: '2023-08-16',
     });
   }
 
@@ -72,7 +73,7 @@ export class PaymentsService {
   }
 
   async handleWebhook(rawBody: string | Buffer, signature: string) {
-    const webhookSecret = this.configService.get<string>('STRIPE_WEBHOOK_SECRET');
+    const webhookSecret = this.configService.get<string>('STRIPE_WEBHOOK_SECRET') || '';
 
     let event: Stripe.Event;
 
@@ -107,7 +108,7 @@ export class PaymentsService {
 
     if (!order) return;
 
-    await this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.payment.update({
         where: { providerPaymentId: paymentIntent.id },
         data: {
@@ -148,7 +149,7 @@ export class PaymentsService {
 
     if (!order) return;
 
-    await this.prisma.$transaction(async (tx) => {
+    await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.payment.update({
         where: { providerPaymentId: paymentIntentId },
         data: {

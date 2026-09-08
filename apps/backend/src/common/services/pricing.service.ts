@@ -85,9 +85,8 @@ export class PricingService {
    * Aplica recargo global express a todos los items
    */
   applyGlobalExpress(items: PricingInput[]): PricingResult[] {
-    return items.map((item) => ({
-      ...item,
-      expressApplied: true,
-    }));
+    return items.map((item) =>
+      this.calculateItemPrice({ ...item, expressApplied: true }),
+    );
   }
 }

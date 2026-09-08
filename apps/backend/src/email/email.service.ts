@@ -9,9 +9,9 @@ export class EmailService {
   private adminEmail: string;
 
   constructor(private configService: ConfigService) {
-    this.resendApiKey = this.configService.get<string>('RESEND_API_KEY');
-    this.fromEmail = this.configService.get<string>('RESEND_FROM_EMAIL');
-    this.adminEmail = this.configService.get<string>('ADMIN_EMAIL');
+    this.resendApiKey = this.configService.get<string>('RESEND_API_KEY') || '';
+    this.fromEmail = this.configService.get<string>('RESEND_FROM_EMAIL') || '';
+    this.adminEmail = this.configService.get<string>('ADMIN_EMAIL') || '';
   }
 
   /**
@@ -54,7 +54,7 @@ export class EmailService {
    */
   async sendOrderStatusUpdate(customerEmail: string, order: any, newStatus: string) {
     try {
-      const statusMessages = {
+      const statusMessages: Record<string, string> = {
         PAID: 'Tu pago ha sido recibido',
         IN_PRODUCTION: 'Hemos comenzado a elaborar tu pedido',
         READY_FOR_PICKUP: 'Tu pedido está listo para recoger',
@@ -64,8 +64,9 @@ export class EmailService {
         REFUNDED: 'Tu reembolso ha sido procesado',
       };
 
-      const subject = `${statusMessages[newStatus]} - Pedido #${order.id}`;
-      const html = this.generateStatusUpdateHtml(order, newStatus, statusMessages[newStatus]);
+      const message = statusMessages[newStatus] || 'Tu pedido ha sido actualizado';
+      const subject = `${message} - Pedido #${order.id}`;
+      const html = this.generateStatusUpdateHtml(order, newStatus, message);
 
       this.logger.log(`Order status update sent to ${customerEmail}: ${newStatus}`);
 

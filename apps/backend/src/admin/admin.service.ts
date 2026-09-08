@@ -42,7 +42,7 @@ export class AdminService {
       totalOrders,
       totalRevenue: totalRevenue._sum.total || 0,
       recentOrders,
-      ordersByStatus: ordersByStatus.reduce((acc, item) => {
+      ordersByStatus: ordersByStatus.reduce((acc: Record<string, number>, item: any) => {
         acc[item.status] = item._count;
         return acc;
       }, {} as Record<string, number>),
