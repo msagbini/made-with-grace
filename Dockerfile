@@ -25,9 +25,6 @@ FROM node:18-bullseye-slim
 
 WORKDIR /app
 
-# Install tini for proper signal handling
-RUN apt-get update && apt-get install -y tini && rm -rf /var/lib/apt/lists/*
-
 # Copy package files for dependency installation
 COPY package*.json ./
 COPY apps/backend/package*.json ./apps/backend/
@@ -52,6 +49,5 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
 # Expose ports
 EXPOSE 3001
 
-# Start backend with tini
-ENTRYPOINT ["/sbin/tini", "--"]
+# Start backend
 CMD ["node", "apps/backend/dist/main.js"]
