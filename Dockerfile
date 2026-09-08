@@ -7,7 +7,6 @@ WORKDIR /app
 COPY package*.json ./
 COPY apps/backend/package*.json ./apps/backend/
 COPY apps/frontend/package*.json ./apps/frontend/
-COPY packages/ ./packages/ 2>/dev/null || true
 
 # Install dependencies
 RUN npm install
