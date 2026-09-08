@@ -8,7 +8,6 @@ import { FilesModule } from './files/files.module';
 import { EmailModule } from './email/email.module';
 import { AuthModule } from './auth/auth.module';
 import { HealthModule } from './health/health.module';
-import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -28,7 +27,6 @@ import { AdminModule } from './admin/admin.module';
     FilesModule,
     EmailModule,
     AuthModule,
-    AdminModule,
     HealthModule,
   ],
 })
