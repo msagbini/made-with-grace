@@ -3,12 +3,13 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
+# Copy all package files
 COPY package*.json ./
 COPY apps/backend/package*.json ./apps/backend/
 COPY apps/frontend/package*.json ./apps/frontend/
+COPY apps/shared/package*.json ./apps/shared/ 2>/dev/null || true
 
-# Install dependencies
+# Install all dependencies
 RUN npm install
 
 # Copy source code
@@ -25,17 +26,20 @@ WORKDIR /app
 # Install dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init
 
-# Copy package files
+# Copy package files for dependency installation
 COPY package*.json ./
 COPY apps/backend/package*.json ./apps/backend/
+COPY apps/shared/package*.json ./apps/shared/ 2>/dev/null || true
 
-# Install production dependencies only
-RUN npm install --omit=dev
+# Install production dependencies
+RUN npm install --omit=dev --workspaces
 
-# Copy built applications and code from builder
+# Copy built backend from builder
 COPY --from=builder /app/apps/backend/dist ./apps/backend/dist
 COPY --from=builder /app/apps/backend/prisma ./apps/backend/prisma
-COPY --from=builder /app/apps/backend/node_modules ./apps/backend/node_modules
+
+# Copy node_modules from builder (production only)
+COPY --from=builder /app/node_modules ./node_modules
 
 # Set NODE_ENV
 ENV NODE_ENV=production
