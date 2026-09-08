@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import StripePaymentForm from '@/components/StripePaymentForm';
 import { Order } from '@/types';
 
 export default function PaymentPage() {
@@ -75,10 +76,12 @@ export default function PaymentPage() {
           {/* Payment Form */}
           <div className="md:col-span-2">
             <div className="bg-gray-50 p-8 rounded-lg">
-              <p className="text-gray-600 text-center py-12">
-                🔄 Integración de pagos en desarrollo. <br />
-                <small>Por favor, contacta al equipo.</small>
-              </p>
+              <StripePaymentForm
+                orderId={orderId}
+                amount={order.total * 100} // Convertir a centavos
+                onSuccess={handlePaymentSuccess}
+                onError={handlePaymentError}
+              />
             </div>
 
             <div className="mt-6 text-sm text-gray-600 space-y-2">
