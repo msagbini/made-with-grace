@@ -26,8 +26,7 @@
     "three": "^0.157.0",
     "react-three-fiber": "^8.14.0",
     "drei": "^9.88.0",
-    "@stripe/react-stripe-js": "^2.0.0",
-    "@stripe/js": "^1.0.0"
+    "@stripe/react-stripe-js": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.0",
