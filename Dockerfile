@@ -22,8 +22,8 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
+# Install tini for proper signal handling
+RUN apk add --no-cache tini
 
 # Copy package files for dependency installation
 COPY package*.json ./
@@ -49,6 +49,6 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
 # Expose ports
 EXPOSE 3001
 
-# Start backend
-ENTRYPOINT ["/sbin/dumb-init", "--"]
+# Start backend with tini
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "apps/backend/dist/main.js"]
