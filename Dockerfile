@@ -1,5 +1,5 @@
 # Build stage
-FROM node:18-alpine AS builder
+FROM node:18-bullseye AS builder
 
 WORKDIR /app
 
@@ -21,12 +21,12 @@ RUN cd apps/backend && npx prisma generate
 RUN npm run build
 
 # Runtime stage
-FROM node:18-alpine
+FROM node:18-bullseye-slim
 
 WORKDIR /app
 
 # Install tini for proper signal handling
-RUN apk add --no-cache tini
+RUN apt-get update && apt-get install -y tini && rm -rf /var/lib/apt/lists/*
 
 # Copy package files for dependency installation
 COPY package*.json ./
