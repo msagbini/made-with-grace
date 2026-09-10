@@ -37,7 +37,7 @@ export const useAdminStore = create<AdminAuthState>()(
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/admin/auth/login`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://sweetgrace.up.railway.app'}/admin/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),
@@ -72,7 +72,7 @@ export const useAdminStore = create<AdminAuthState>()(
       register: async (email: string, password: string, name: string) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/admin/auth/register`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://sweetgrace.up.railway.app'}/admin/auth/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password, name }),
