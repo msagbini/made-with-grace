@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Sweet Grace',
     description: 'Cakes & cookies made with love.',
-    images: ['/logo-full.png'],
+    images: ['/logo.png'],
   },
 };
 
