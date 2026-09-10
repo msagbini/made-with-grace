@@ -4,8 +4,21 @@ import SiteChrome from '@/components/SiteChrome';
 
 export const metadata: Metadata = {
   title: 'Sweet Grace - Galletas Personalizadas',
-  description: 'Galletas personalizadas con previsualización 2D/3D',
+  description: 'Cakes & cookies made with love. Galletas y pasteles personalizados, horneados con cariño.',
   viewport: 'width=device-width, initial-scale=1',
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  openGraph: {
+    title: 'Sweet Grace',
+    description: 'Cakes & cookies made with love.',
+    images: ['/logo-full.png'],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

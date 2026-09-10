@@ -46,9 +46,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
       <div className="w-64 bg-gray-900 text-white flex flex-col">
-        <div className="p-6 border-b border-gray-800">
-          <h1 className="text-2xl font-bold">Sweet Grace</h1>
-          <p className="text-gray-400 text-sm">Admin Dashboard</p>
+        <div className="p-6 border-b border-gray-800 flex items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="Sweet Grace" className="h-12 w-12 rounded-full" />
+          <div>
+            <h1 className="text-lg font-bold leading-tight">Sweet Grace</h1>
+            <p className="text-gray-400 text-xs">Admin Dashboard</p>
+          </div>
         </div>
 
         <nav className="flex-1 px-4 py-6 space-y-2">

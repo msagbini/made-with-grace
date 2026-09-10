@@ -32,12 +32,15 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-100 via-orange-50 to-pink-100 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
-        <div className="text-center text-4xl mb-2">🍪</div>
-        <h1 className="font-serif text-3xl font-bold text-center text-chocolate mb-2">
-          Sweet Grace Admin
+        <div className="flex justify-center mb-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="Sweet Grace" className="h-24 w-auto" />
+        </div>
+        <h1 className="font-serif text-2xl font-bold text-center text-chocolate mb-2">
+          Panel de Administración
         </h1>
         <p className="text-center text-gray-600 mb-8">
-          Manage your store and orders
+          Gestiona tu tienda y pedidos
         </p>
 
         {(formError || error) && (
