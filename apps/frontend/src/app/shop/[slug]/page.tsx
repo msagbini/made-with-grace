@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { productsApi } from '@/lib/api';
 import { Category, Product } from '@/types';
 import { getCategoryVisual } from '@/lib/category-visuals';
+import CategoryIcon from '@/components/CategoryIcon';
 
 type CategoryWithProducts = Category & { products: Product[] };
 
@@ -86,8 +87,8 @@ export default function CategoryPage() {
                   {product.image ? (
                     <img src={product.image} alt={product.name} className="w-full h-44 object-cover" />
                   ) : (
-                    <div className={`bg-gradient-to-br ${visual.gradient} h-44 flex items-center justify-center text-6xl`}>
-                      {visual.emoji}
+                    <div className={`bg-gradient-to-br ${visual.gradient} h-44 flex items-center justify-center`}>
+                      <CategoryIcon icon={visual.icon} className="w-16 h-16 drop-shadow-sm" />
                     </div>
                   )}
                   <div className="p-5 flex-1 flex flex-col">

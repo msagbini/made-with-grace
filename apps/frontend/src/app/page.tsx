@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { getCategoryVisual } from '@/lib/category-visuals';
+import CategoryIcon from '@/components/CategoryIcon';
 
 const PREVIEW_CATEGORIES = [
   { slug: 'galletas-mensaje', name: 'Message Cookies', description: 'Personalize with your own message' },
@@ -78,9 +79,9 @@ export default function Home() {
             const visual = getCategoryVisual(category.slug, i);
             return (
               <Link key={category.slug} href="/shop" className="group block">
-                <div className={`relative overflow-hidden bg-gradient-to-br ${visual.gradient} rounded-2xl p-8 text-center h-40 flex items-center justify-center text-5xl shadow-sm group-hover:shadow-xl group-hover:-translate-y-1 transition`}>
+                <div className={`relative overflow-hidden bg-gradient-to-br ${visual.gradient} rounded-2xl p-8 text-center h-40 flex items-center justify-center shadow-sm group-hover:shadow-xl group-hover:-translate-y-1 transition`}>
                   <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-white/20 rounded-full blur-xl" />
-                  <span className="relative">{visual.emoji}</span>
+                  <CategoryIcon icon={visual.icon} className="relative w-14 h-14 drop-shadow-sm" />
                 </div>
                 <h3 className="font-serif font-semibold text-lg text-chocolate mt-4 mb-1">{category.name}</h3>
                 <p className="text-sm text-chocolate/60">{category.description}</p>

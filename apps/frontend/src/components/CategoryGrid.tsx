@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { productsApi } from '@/lib/api';
 import { Category } from '@/types';
 import { getCategoryVisual } from '@/lib/category-visuals';
+import CategoryIcon from '@/components/CategoryIcon';
 
 export default function CategoryGrid() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -64,8 +65,8 @@ export default function CategoryGrid() {
               {category.image ? (
                 <img src={category.image} alt={category.name} className="w-full h-36 object-cover" />
               ) : (
-                <div className={`bg-gradient-to-br ${visual.gradient} h-36 flex items-center justify-center text-5xl`}>
-                  {visual.emoji}
+                <div className={`bg-gradient-to-br ${visual.gradient} h-36 flex items-center justify-center`}>
+                  <CategoryIcon icon={visual.icon} className="w-14 h-14 drop-shadow-sm" />
                 </div>
               )}
               <div className="p-5 flex-1 flex flex-col">
