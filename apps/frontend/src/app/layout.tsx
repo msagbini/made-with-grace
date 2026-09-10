@@ -3,8 +3,8 @@ import '@/styles/globals.css';
 import SiteChrome from '@/components/SiteChrome';
 
 export const metadata: Metadata = {
-  title: 'Sweet Grace - Galletas Personalizadas',
-  description: 'Cakes & cookies made with love. Galletas y pasteles personalizados, horneados con cariño.',
+  title: 'Sweet Grace - Custom Cookies & Cakes',
+  description: 'Cakes & cookies made with love. Custom-designed cookies and cakes, baked fresh for every special occasion.',
   viewport: 'width=device-width, initial-scale=1',
   icons: {
     icon: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

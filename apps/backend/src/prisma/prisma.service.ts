@@ -25,10 +25,10 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   private async syncStarterCatalog() {
     try {
       const categories = [
-        { slug: 'galletas-mensaje', name: 'Galletas con Mensaje', description: 'Personaliza con tu propio mensaje', basePrice: 15.99, displayOrder: 1 },
-        { slug: 'galletas-foto', name: 'Galletas con Foto', description: 'Sube tu foto favorita', basePrice: 24.99, displayOrder: 2 },
-        { slug: 'galletas-tematicas', name: 'Galletas Temáticas', description: 'Diseños especiales y temáticos', basePrice: 19.99, displayOrder: 3 },
-        { slug: 'pack-mixto', name: 'Pack Mixto', description: 'Variedad de sabores y diseños', basePrice: 34.99, displayOrder: 4 },
+        { slug: 'galletas-mensaje', name: 'Message Cookies', description: 'Personalize with your own message', basePrice: 15.99, displayOrder: 1 },
+        { slug: 'galletas-foto', name: 'Photo Cookies', description: 'Upload your favorite photo', basePrice: 24.99, displayOrder: 2 },
+        { slug: 'galletas-tematicas', name: 'Themed Cookies', description: 'Special occasion designs', basePrice: 19.99, displayOrder: 3 },
+        { slug: 'pack-mixto', name: 'Mixed Pack', description: 'A variety of flavors and designs', basePrice: 34.99, displayOrder: 4 },
       ];
 
       const savedCategories: Record<string, { id: string }> = {};
@@ -42,7 +42,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
       const colorCustomization = {
         type: 'color',
-        label: 'Color de Glaseado',
+        label: 'Icing Color',
         required: false,
         allowedValues: ['#ef4444', '#3b82f6', '#ec4899', '#f59e0b'],
       };
@@ -51,61 +51,61 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
         {
           slug: 'mini-mensaje',
           categorySlug: 'galletas-mensaje',
-          name: 'Mini Galleta con Mensaje',
-          description: 'Pequeña galleta personalizada con tu mensaje',
+          name: 'Mini Message Cookie',
+          description: 'A small cookie personalized with your message',
           price: 15.99,
           displayOrder: 1,
           customizations: [
-            { type: 'text', label: 'Mensaje', required: true, maxLength: 20 },
+            { type: 'text', label: 'Message', required: true, maxLength: 20 },
             colorCustomization,
           ],
         },
         {
           slug: 'docena-mensaje',
           categorySlug: 'galletas-mensaje',
-          name: 'Docena con Mensaje',
-          description: '12 galletas personalizadas, ideales para regalar',
+          name: 'Message Cookie Dozen',
+          description: '12 personalized cookies, perfect for gifting',
           price: 42.99,
           displayOrder: 2,
           customizations: [
-            { type: 'text', label: 'Mensaje', required: true, maxLength: 20 },
+            { type: 'text', label: 'Message', required: true, maxLength: 20 },
             colorCustomization,
           ],
         },
         {
           slug: 'foto-clasica',
           categorySlug: 'galletas-foto',
-          name: 'Galleta con Foto Clásica',
-          description: 'Impresión comestible de tu foto favorita',
+          name: 'Classic Photo Cookie',
+          description: 'Edible print of your favorite photo',
           price: 24.99,
           displayOrder: 1,
-          customizations: [{ type: 'image', label: 'Foto', required: true }],
+          customizations: [{ type: 'image', label: 'Photo', required: true }],
         },
         {
           slug: 'foto-pack',
           categorySlug: 'galletas-foto',
-          name: 'Pack de 6 Fotos',
-          description: '6 galletas, una foto distinta en cada una',
+          name: '6-Photo Pack',
+          description: '6 cookies, a different photo on each one',
           price: 59.99,
           displayOrder: 2,
-          customizations: [{ type: 'image', label: 'Foto', required: true }],
+          customizations: [{ type: 'image', label: 'Photo', required: true }],
         },
         {
           slug: 'tematica-cumple',
           categorySlug: 'galletas-tematicas',
-          name: 'Set Temático Cumpleaños',
-          description: 'Diseños festivos para cumpleaños',
+          name: 'Birthday Themed Set',
+          description: 'Festive designs for birthdays',
           price: 19.99,
           displayOrder: 1,
           customizations: [
-            { type: 'select', label: 'Tema', required: true, allowedValues: ['Cumpleaños', 'Baby Shower', 'Boda'] },
+            { type: 'select', label: 'Theme', required: true, allowedValues: ['Birthday', 'Baby Shower', 'Wedding'] },
           ],
         },
         {
           slug: 'tematica-boda',
           categorySlug: 'galletas-tematicas',
-          name: 'Set Temático Boda',
-          description: 'Elegantes galletas para el gran día',
+          name: 'Wedding Themed Set',
+          description: 'Elegant cookies for the big day',
           price: 29.99,
           displayOrder: 2,
           customizations: [
@@ -115,8 +115,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
         {
           slug: 'pack-mixto-18',
           categorySlug: 'pack-mixto',
-          name: 'Pack Mixto x18',
-          description: 'Variedad de sabores y diseños, ideal para compartir',
+          name: 'Mixed Pack x18',
+          description: 'A variety of flavors and designs, great for sharing',
           price: 34.99,
           displayOrder: 1,
           customizations: [],

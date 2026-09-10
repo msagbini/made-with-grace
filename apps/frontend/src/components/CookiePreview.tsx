@@ -1,6 +1,6 @@
 'use client';
 
-export type CookieSize = 'Pequeña' | 'Mediana' | 'Grande';
+export type CookieSize = 'Small' | 'Medium' | 'Large';
 
 interface CookiePreviewProps {
   sizeLabel: CookieSize;
@@ -11,9 +11,9 @@ interface CookiePreviewProps {
 }
 
 const SIZE_PX: Record<CookieSize, number> = {
-  Pequeña: 140,
-  Mediana: 190,
-  Grande: 240,
+  Small: 140,
+  Medium: 190,
+  Large: 240,
 };
 
 const SPRINKLE_COLORS = ['#ef4444', '#3b82f6', '#f59e0b', '#22c55e', '#ec4899', '#a855f7'];
@@ -127,7 +127,7 @@ export default function CookiePreview({ sizeLabel, color, message, photoUrl, sel
 
       <div className="flex flex-wrap items-center justify-center gap-2">
         <span className="text-xs font-semibold bg-white/80 border border-chocolate/10 text-chocolate px-3 py-1 rounded-full">
-          Tamaño: {sizeLabel}
+          Size: {sizeLabel}
         </span>
         {selection && (
           <span className="text-xs font-semibold bg-white/80 border border-chocolate/10 text-chocolate px-3 py-1 rounded-full">

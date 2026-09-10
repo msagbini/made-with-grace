@@ -15,14 +15,14 @@ export class EmailService {
   }
 
   /**
-   * Enviar confirmación de pedido al cliente
+   * Send order confirmation to the customer
    */
   async sendOrderConfirmation(customerEmail: string, order: any) {
     try {
-      const subject = `Pedido confirmado #${order.id}`;
+      const subject = `Order confirmed #${order.id}`;
       const html = this.generateOrderConfirmationHtml(order);
 
-      // Implementar con Resend SDK
+      // Implement with Resend SDK
       this.logger.log(`Order confirmation email sent to ${customerEmail}`);
 
       return { success: true };
@@ -33,11 +33,11 @@ export class EmailService {
   }
 
   /**
-   * Notificar al admin sobre nuevo pedido
+   * Notify the admin about a new order
    */
   async sendAdminNotification(order: any) {
     try {
-      const subject = `Nuevo pedido #${order.id}`;
+      const subject = `New order #${order.id}`;
       const html = this.generateAdminNotificationHtml(order);
 
       this.logger.log(`Admin notification sent for order ${order.id}`);
@@ -50,22 +50,22 @@ export class EmailService {
   }
 
   /**
-   * Notificar cambio de estado del pedido
+   * Notify the customer of an order status change
    */
   async sendOrderStatusUpdate(customerEmail: string, order: any, newStatus: string) {
     try {
       const statusMessages: Record<string, string> = {
-        PAID: 'Tu pago ha sido recibido',
-        IN_PRODUCTION: 'Hemos comenzado a elaborar tu pedido',
-        READY_FOR_PICKUP: 'Tu pedido está listo para recoger',
-        SHIPPED: 'Tu pedido ha sido enviado',
-        DELIVERED: 'Tu pedido ha sido entregado',
-        CANCELLED: 'Tu pedido ha sido cancelado',
-        REFUNDED: 'Tu reembolso ha sido procesado',
+        PAID: 'Your payment has been received',
+        IN_PRODUCTION: 'We have started preparing your order',
+        READY_FOR_PICKUP: 'Your order is ready for pickup',
+        SHIPPED: 'Your order has shipped',
+        DELIVERED: 'Your order has been delivered',
+        CANCELLED: 'Your order has been cancelled',
+        REFUNDED: 'Your refund has been processed',
       };
 
-      const message = statusMessages[newStatus] || 'Tu pedido ha sido actualizado';
-      const subject = `${message} - Pedido #${order.id}`;
+      const message = statusMessages[newStatus] || 'Your order has been updated';
+      const subject = `${message} - Order #${order.id}`;
       const html = this.generateStatusUpdateHtml(order, newStatus, message);
 
       this.logger.log(`Order status update sent to ${customerEmail}: ${newStatus}`);
@@ -79,18 +79,18 @@ export class EmailService {
 
   private generateOrderConfirmationHtml(order: any): string {
     return `
-      <h1>Confirmación de Pedido</h1>
-      <p>Pedido #${order.id}</p>
+      <h1>Order Confirmation</h1>
+      <p>Order #${order.id}</p>
       <p>Total: $${order.total}</p>
-      <p>Fecha de entrega esperada: ${new Date(order.deliveryDate).toLocaleDateString('es-ES')}</p>
+      <p>Expected delivery date: ${new Date(order.deliveryDate).toLocaleDateString('en-US')}</p>
     `;
   }
 
   private generateAdminNotificationHtml(order: any): string {
     return `
-      <h1>Nuevo Pedido</h1>
+      <h1>New Order</h1>
       <p>ID: ${order.id}</p>
-      <p>Cliente: ${order.customer?.name}</p>
+      <p>Customer: ${order.customer?.name}</p>
       <p>Email: ${order.customer?.email}</p>
       <p>Total: $${order.total}</p>
       <p>Items: ${order.items?.length}</p>
@@ -100,8 +100,8 @@ export class EmailService {
   private generateStatusUpdateHtml(order: any, status: string, message: string): string {
     return `
       <h1>${message}</h1>
-      <p>Pedido #${order.id}</p>
-      <p>Estado: ${status}</p>
+      <p>Order #${order.id}</p>
+      <p>Status: ${status}</p>
     `;
   }
 }

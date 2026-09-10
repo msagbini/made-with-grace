@@ -2,13 +2,13 @@ import { Suspense } from 'react';
 import { PaymentPageContent } from '@/components/PaymentPageContent';
 
 export const metadata = {
-  title: 'Pago Seguro | Sweet Grace Shop',
-  description: 'Completa tu pago de forma segura',
+  title: 'Secure Payment | Sweet Grace Shop',
+  description: 'Complete your payment securely',
 };
 
 export default function PaymentPage() {
   return (
-    <Suspense fallback={<div>Cargando...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
       <PaymentPageContent />
     </Suspense>
   );

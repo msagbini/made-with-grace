@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { getCategoryVisual } from '@/lib/category-visuals';
 
 const PREVIEW_CATEGORIES = [
-  { slug: 'galletas-mensaje', name: 'Galletas con Mensaje', description: 'Personaliza con tu mensaje' },
-  { slug: 'galletas-foto', name: 'Galletas con Foto', description: 'Sube tu imagen favorita' },
-  { slug: 'galletas-tematicas', name: 'Galletas Temáticas', description: 'Diseños especiales' },
-  { slug: 'pack-mixto', name: 'Pack Mixto', description: 'Variedad de sabores' },
+  { slug: 'galletas-mensaje', name: 'Message Cookies', description: 'Personalize with your own message' },
+  { slug: 'galletas-foto', name: 'Photo Cookies', description: 'Upload your favorite picture' },
+  { slug: 'galletas-tematicas', name: 'Themed Cookies', description: 'Special occasion designs' },
+  { slug: 'pack-mixto', name: 'Mixed Pack', description: 'A variety of flavors' },
 ];
 
 export default function Home() {
@@ -29,16 +29,28 @@ export default function Home() {
           />
           <h1 className="sr-only">Sweet Grace</h1>
           <span className="inline-block bg-white/70 backdrop-blur px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide text-primary uppercase mb-4">
-            Hecho a mano · Ingredientes premium
+            Handmade · Premium Ingredients
           </span>
-          <p className="text-lg sm:text-xl text-chocolate/70 max-w-xl mx-auto mb-10">
-            Galletas y pasteles personalizados, horneados con cariño para cada ocasión especial.
+          <p className="text-lg sm:text-xl text-chocolate/70 max-w-xl mx-auto mb-8">
+            Custom-designed cookies and cakes, baked fresh with love for every special occasion.
           </p>
           <Link href="/shop">
             <button className="bg-primary text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-xl hover:-translate-y-0.5 transition">
-              Ver Tienda Completa
+              Shop the Full Collection
             </button>
           </Link>
+
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-10 text-sm text-chocolate/60">
+            <span className="flex items-center gap-1.5">
+              <span aria-hidden>🧑‍🍳</span> Handmade to order
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span aria-hidden>🔒</span> Secure checkout
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span aria-hidden>🚚</span> Free shipping over $100
+            </span>
+          </div>
         </div>
       </section>
 
@@ -46,9 +58,9 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="text-center mb-10">
           <h2 className="font-serif text-2xl sm:text-3xl font-bold text-chocolate mb-2">
-            Nuestras Categorías
+            Our Categories
           </h2>
-          <p className="text-chocolate/60 text-sm sm:text-base">Cada creación, única como tu ocasión</p>
+          <p className="text-chocolate/60 text-sm sm:text-base">Every creation, as unique as your occasion</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {PREVIEW_CATEGORIES.map((category, i) => {

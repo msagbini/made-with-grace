@@ -26,10 +26,10 @@ export default function Header() {
 
         <nav className="flex items-center gap-4 sm:gap-6">
           <Link href="/shop" className="text-sm sm:text-base font-medium text-chocolate hover:text-primary transition">
-            Tienda
+            Shop
           </Link>
           <Link href="/cart" className="relative text-sm sm:text-base font-medium text-chocolate hover:text-primary transition flex items-center gap-1">
-            <span>Carrito</span>
+            <span>Cart</span>
             {itemCount > 0 && (
               <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-primary rounded-full">
                 {itemCount}

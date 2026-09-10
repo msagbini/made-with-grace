@@ -14,9 +14,9 @@ export default function CartSummary({ compact = false }: Props) {
   if (items.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-600 mb-4">Tu carrito está vacío</p>
+        <p className="text-gray-600 mb-4">Your cart is empty</p>
         <Link href="/shop" className="text-primary font-semibold hover:underline">
-          Continuar comprando
+          Continue shopping
         </Link>
       </div>
     );
@@ -31,7 +31,7 @@ export default function CartSummary({ compact = false }: Props) {
         </div>
         {expressFee > 0 && (
           <div className="flex justify-between text-primary">
-            <span>Recargo Express:</span>
+            <span>Express Fee:</span>
             <span>${expressFee.toFixed(2)}</span>
           </div>
         )}
@@ -45,7 +45,7 @@ export default function CartSummary({ compact = false }: Props) {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Resumen del Carrito</h2>
+      <h2 className="font-serif text-2xl font-bold text-chocolate">Cart Summary</h2>
 
       {/* Items */}
       <div className="space-y-4">
@@ -53,11 +53,11 @@ export default function CartSummary({ compact = false }: Props) {
           <div key={item.id} className="border rounded-lg p-4">
             <div className="flex justify-between items-start mb-2">
               <div>
-                <h3 className="font-semibold">{item.product?.name || 'Producto'}</h3>
+                <h3 className="font-semibold">{item.product?.name || 'Product'}</h3>
                 <p className="text-sm text-gray-600">
                   {item.customizations && Object.keys(item.customizations).length > 0 && (
                     <>
-                      Personalización: {JSON.stringify(item.customizations).substring(0, 50)}...
+                      Customization: {JSON.stringify(item.customizations).substring(0, 50)}...
                     </>
                   )}
                 </p>
@@ -66,7 +66,7 @@ export default function CartSummary({ compact = false }: Props) {
                 onClick={() => removeItem(item.id)}
                 className="text-red-600 hover:text-red-800 font-semibold"
               >
-                Eliminar
+                Remove
               </button>
             </div>
 
@@ -108,7 +108,7 @@ export default function CartSummary({ compact = false }: Props) {
             onChange={(e) => applyExpressGlobal(e.target.checked)}
             className="w-4 h-4 text-primary rounded"
           />
-          <span className="font-medium">Aplicar Express a todo (+50%)</span>
+          <span className="font-medium">Apply Express to all items (+50%)</span>
         </label>
       </div>
 
@@ -120,7 +120,7 @@ export default function CartSummary({ compact = false }: Props) {
         </div>
         {expressFee > 0 && (
           <div className="flex justify-between text-primary">
-            <span>Recargo Express:</span>
+            <span>Express Fee:</span>
             <span>${expressFee.toFixed(2)}</span>
           </div>
         )}
@@ -133,7 +133,7 @@ export default function CartSummary({ compact = false }: Props) {
       {/* Checkout Button */}
       <Link href="/checkout" className="w-full">
         <button className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90">
-          Proceder al Checkout
+          Proceed to Checkout
         </button>
       </Link>
     </div>

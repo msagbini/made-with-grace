@@ -37,10 +37,10 @@ export default function AdminLoginPage() {
           <img src="/logo.png" alt="Sweet Grace" className="h-24 w-auto" />
         </div>
         <h1 className="font-serif text-2xl font-bold text-center text-chocolate mb-2">
-          Panel de Administración
+          Admin Panel
         </h1>
         <p className="text-center text-gray-600 mb-8">
-          Gestiona tu tienda y pedidos
+          Manage your store and orders
         </p>
 
         {(formError || error) && (

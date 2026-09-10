@@ -38,7 +38,7 @@ export function ConfirmPageContent() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-gray-600">Cargando confirmación...</div>
+        <div className="text-gray-600">Loading confirmation...</div>
       </div>
     );
   }
@@ -49,7 +49,7 @@ export function ConfirmPageContent() {
         <div className="text-center">
           <p className="text-red-600 mb-4">{error || 'Error'}</p>
           <Link href="/shop" className="text-primary font-semibold hover:underline">
-            Volver a tienda
+            Back to shop
           </Link>
         </div>
       </div>
@@ -61,25 +61,25 @@ export function ConfirmPageContent() {
       <div className="max-w-2xl mx-auto px-4 py-12">
         <div className="text-center mb-8">
           <div className="text-6xl mb-4">✓</div>
-          <h1 className="text-4xl font-bold text-green-600 mb-2">¡Pedido Confirmado!</h1>
-          <p className="text-gray-600">Tu pedido ha sido creado exitosamente</p>
+          <h1 className="text-4xl font-bold text-green-600 mb-2">Order Confirmed!</h1>
+          <p className="text-gray-600">Your order has been successfully placed</p>
         </div>
 
         <div className="bg-white border border-gray-200 rounded-lg p-8 space-y-6">
           {/* Order Summary */}
           <div className="border-b pb-6">
-            <h2 className="text-xl font-bold mb-4">Resumen del Pedido</h2>
+            <h2 className="text-xl font-bold mb-4">Order Summary</h2>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-gray-600">ID del Pedido:</span>
+                <span className="text-gray-600">Order ID:</span>
                 <span className="font-mono font-semibold">{order.id}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Fecha:</span>
-                <span>{new Date(order.createdAt).toLocaleDateString('es-ES')}</span>
+                <span className="text-gray-600">Date:</span>
+                <span>{new Date(order.createdAt).toLocaleDateString('en-US')}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Estado:</span>
+                <span className="text-gray-600">Status:</span>
                 <span className="font-semibold text-blue-600">{order.status}</span>
               </div>
             </div>
@@ -87,13 +87,13 @@ export function ConfirmPageContent() {
 
           {/* Items */}
           <div className="border-b pb-6">
-            <h2 className="text-xl font-bold mb-4">Elementos del Pedido</h2>
+            <h2 className="text-xl font-bold mb-4">Order Items</h2>
             <div className="space-y-3">
               {order.items.map((item) => (
                 <div key={item.id} className="flex justify-between p-2 bg-gray-50 rounded">
                   <div>
                     <p className="font-semibold">{item.product?.name}</p>
-                    <p className="text-sm text-gray-600">Cantidad: {item.quantity}</p>
+                    <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
                   </div>
                   <p className="font-semibold">${item.subtotal.toFixed(2)}</p>
                 </div>
@@ -109,7 +109,7 @@ export function ConfirmPageContent() {
             </div>
             {order.expressFee > 0 && (
               <div className="flex justify-between text-primary">
-                <span>Recargo Express:</span>
+                <span>Express Fee:</span>
                 <span>${order.expressFee.toFixed(2)}</span>
               </div>
             )}
@@ -121,7 +121,7 @@ export function ConfirmPageContent() {
 
           {/* Delivery Info */}
           <div className="border-b pb-6">
-            <h2 className="text-xl font-bold mb-4">Información de Entrega</h2>
+            <h2 className="text-xl font-bold mb-4">Delivery Information</h2>
             <div className="space-y-2 text-sm">
               <p>
                 <span className="font-semibold">{order.name}</span>
@@ -129,30 +129,30 @@ export function ConfirmPageContent() {
               <p>{order.address}</p>
               {order.city && <p>{order.city}, {order.zip}</p>}
               <p className="text-gray-600">
-                Fecha esperada: {new Date(order.deliveryDate).toLocaleDateString('es-ES')}
+                Expected date: {new Date(order.deliveryDate).toLocaleDateString('en-US')}
               </p>
             </div>
           </div>
 
           {/* Next Steps */}
           <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-            <h3 className="font-bold text-blue-900 mb-2">Próximos Pasos</h3>
+            <h3 className="font-bold text-blue-900 mb-2">Next Steps</h3>
             <ul className="text-sm text-blue-900 space-y-1">
-              <li>✓ Recibirás un email de confirmación en {order.email}</li>
-              <li>✓ Procederemos con el pago en el siguiente paso</li>
-              <li>✓ Te notificaremos cuando inicie la elaboración</li>
-              <li>✓ Recibirás actualizaciones del estado del pedido</li>
+              <li>✓ You'll receive a confirmation email at {order.email}</li>
+              <li>✓ We'll process payment in the next step</li>
+              <li>✓ We'll notify you once your order goes into production</li>
+              <li>✓ You'll get updates on your order status</li>
             </ul>
           </div>
 
           {/* Actions */}
           <div className="grid grid-cols-2 gap-4">
             <button className="border border-gray-300 text-gray-700 py-2 rounded-lg font-semibold hover:bg-gray-50">
-              Ver Pedido
+              View Order
             </button>
             <Link href="/shop">
               <button className="bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary/90 w-full">
-                Continuar Comprando
+                Continue Shopping
               </button>
             </Link>
           </div>

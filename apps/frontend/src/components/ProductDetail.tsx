@@ -9,11 +9,11 @@ interface Props {
   product: Product;
 }
 
-const SIZE_OPTIONS: CookieSize[] = ['Pequeña', 'Mediana', 'Grande'];
+const SIZE_OPTIONS: CookieSize[] = ['Small', 'Medium', 'Large'];
 
 export default function ProductDetail({ product }: Props) {
   const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState<CookieSize>('Mediana');
+  const [size, setSize] = useState<CookieSize>('Medium');
   const [expressApplied, setExpressApplied] = useState(false);
   const [customizations, setCustomizations] = useState<Record<string, any>>({});
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -50,11 +50,11 @@ export default function ProductDetail({ product }: Props) {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      setErrors((prev) => ({ ...prev, foto: 'Solo se permiten archivos de imagen' }));
+      setErrors((prev) => ({ ...prev, foto: 'Only image files are allowed' }));
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setErrors((prev) => ({ ...prev, foto: 'La imagen no puede superar 5MB' }));
+      setErrors((prev) => ({ ...prev, foto: 'Image must be under 5MB' }));
       return;
     }
 
@@ -81,22 +81,22 @@ export default function ProductDetail({ product }: Props) {
 
       if (custom.type === 'image') {
         if (!imagePreview) {
-          newErrors.foto = `${custom.label} es obligatoria`;
+          newErrors.foto = `${custom.label} is required`;
         }
       } else {
         const value = customizations[custom.label];
         if (!value || (typeof value === 'string' && value.trim() === '')) {
-          newErrors[custom.label] = `${custom.label} es obligatorio`;
+          newErrors[custom.label] = `${custom.label} is required`;
         } else if (custom.type === 'text' && custom.maxLength && value.length > custom.maxLength) {
-          newErrors[custom.label] = `Máximo ${custom.maxLength} caracteres`;
+          newErrors[custom.label] = `Maximum ${custom.maxLength} characters`;
         }
       }
     });
 
     if (!Number.isInteger(quantity) || quantity < 1) {
-      newErrors.quantity = 'La cantidad debe ser al menos 1';
+      newErrors.quantity = 'Quantity must be at least 1';
     } else if (quantity > 100) {
-      newErrors.quantity = 'Máximo 100 unidades';
+      newErrors.quantity = 'Maximum 100 units';
     }
 
     setErrors(newErrors);
@@ -107,7 +107,7 @@ export default function ProductDetail({ product }: Props) {
     if (!validate()) {
       return;
     }
-    const finalCustomizations = { ...customizations, Tamaño: size };
+    const finalCustomizations = { ...customizations, Size: size };
     addItem(product, quantity, finalCustomizations, expressApplied);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 2000);
@@ -131,18 +131,18 @@ export default function ProductDetail({ product }: Props) {
       {/* Details */}
       <div className="flex flex-col justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-          <p className="text-gray-600 mb-6">{product.description}</p>
+          <h1 className="font-serif text-3xl font-bold text-chocolate mb-2">{product.name}</h1>
+          <p className="text-chocolate/60 mb-6">{product.description}</p>
 
           {hasErrors && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-              Por favor corrige los campos marcados antes de continuar.
+              Please fix the fields marked below before continuing.
             </div>
           )}
 
           {/* Size selector — always available, drives the live preview */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Tamaño</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Size</label>
             <div className="flex gap-2">
               {SIZE_OPTIONS.map((option) => (
                 <button
@@ -163,7 +163,7 @@ export default function ProductDetail({ product }: Props) {
 
           {/* Customizations */}
           <div className="space-y-4 mb-6">
-            <h3 className="font-semibold text-lg">Personalización</h3>
+            <h3 className="font-semibold text-lg">Customization</h3>
 
             {product.customizations.map((custom, i) => {
               const fieldError = custom.type === 'image' ? errors.foto : errors[custom.label];
@@ -187,7 +187,7 @@ export default function ProductDetail({ product }: Props) {
                       maxLength={custom.maxLength}
                       value={customizations[custom.label] || ''}
                       onChange={(e) => handleCustomizationChange(custom.label, e.target.value)}
-                      placeholder={`Max ${custom.maxLength} caracteres`}
+                      placeholder={`Max ${custom.maxLength} characters`}
                       className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
                         fieldError ? 'border-red-400' : 'border-gray-300'
                       }`}
@@ -226,7 +226,7 @@ export default function ProductDetail({ product }: Props) {
                           hover:file:bg-primary/90"
                       />
                       {imagePreview && (
-                        <p className="text-sm text-green-600">Imagen cargada ✓</p>
+                        <p className="text-sm text-green-600">Image uploaded ✓</p>
                       )}
                     </div>
                   )}
@@ -239,7 +239,7 @@ export default function ProductDetail({ product }: Props) {
                         fieldError ? 'border-red-400' : 'border-gray-300'
                       }`}
                     >
-                      <option value="">Selecciona una opción</option>
+                      <option value="">Select an option</option>
                       {custom.allowedValues?.map((value) => (
                         <option key={value} value={value}>
                           {value}
@@ -257,7 +257,7 @@ export default function ProductDetail({ product }: Props) {
           {/* Quantity & Express */}
           <div className="space-y-4 mb-6 border-t border-b py-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Cantidad</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
               <div className="flex gap-2">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -283,7 +283,7 @@ export default function ProductDetail({ product }: Props) {
               {errors.quantity ? (
                 <p className="text-xs text-red-600 mt-1">{errors.quantity}</p>
               ) : (
-                <p className="text-xs text-gray-500 mt-1">Máximo 100 unidades</p>
+                <p className="text-xs text-gray-500 mt-1">Maximum 100 units</p>
               )}
             </div>
 
@@ -295,7 +295,7 @@ export default function ProductDetail({ product }: Props) {
                 className="w-4 h-4 text-primary rounded"
               />
               <span className="font-medium text-sm">
-                Entrega Express +50% (24 horas)
+                Express Delivery +50% (24 hours)
               </span>
             </label>
           </div>
@@ -310,7 +310,7 @@ export default function ProductDetail({ product }: Props) {
             </div>
             {expressApplied && (
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Recargo Express:</span>
+                <span className="text-gray-600">Express Fee:</span>
                 <span className="text-primary">${expressFee.toFixed(2)}</span>
               </div>
             )}
@@ -328,7 +328,7 @@ export default function ProductDetail({ product }: Props) {
                 : 'bg-primary hover:bg-primary/90'
             }`}
           >
-            {addedToCart ? '✓ Añadido al carrito' : 'Añadir al carrito'}
+            {addedToCart ? '✓ Added to cart' : 'Add to Cart'}
           </button>
         </div>
       </div>

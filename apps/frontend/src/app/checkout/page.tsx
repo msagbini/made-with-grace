@@ -52,29 +52,29 @@ export default function CheckoutPage() {
     const errors: Record<string, string> = {};
 
     if (!formData.email.trim()) {
-      errors.email = 'El email es obligatorio';
+      errors.email = 'Email is required';
     } else if (!EMAIL_REGEX.test(formData.email.trim())) {
-      errors.email = 'Ingresa un email válido';
+      errors.email = 'Enter a valid email';
     }
 
     if (!formData.name.trim()) {
-      errors.name = 'El nombre es obligatorio';
+      errors.name = 'Name is required';
     } else if (formData.name.trim().length < 2) {
-      errors.name = 'El nombre es demasiado corto';
+      errors.name = 'Name is too short';
     }
 
     if (formData.phone.trim() && !PHONE_REGEX.test(formData.phone.trim())) {
-      errors.phone = 'Ingresa un teléfono válido';
+      errors.phone = 'Enter a valid phone number';
     }
 
     if (!formData.address.trim()) {
-      errors.address = 'La dirección es obligatoria';
+      errors.address = 'Address is required';
     }
 
     if (!formData.deliveryDate) {
-      errors.deliveryDate = 'Selecciona una fecha de entrega';
+      errors.deliveryDate = 'Select a delivery date';
     } else if (formData.deliveryDate < today) {
-      errors.deliveryDate = 'La fecha no puede ser en el pasado';
+      errors.deliveryDate = 'Date cannot be in the past';
     }
 
     setFieldErrors(errors);
@@ -86,19 +86,19 @@ export default function CheckoutPage() {
     setError(null);
 
     if (items.length === 0) {
-      setError('Tu carrito está vacío');
+      setError('Your cart is empty');
       return;
     }
 
     if (!validateForm()) {
-      setError('Por favor corrige los campos marcados en rojo');
+      setError('Please fix the fields marked in red');
       return;
     }
 
     setLoading(true);
 
     try {
-      // Crear orden
+      // Create order
       const orderData: CreateOrderDto = {
         email: formData.email.trim(),
         name: formData.name.trim(),
@@ -124,21 +124,21 @@ export default function CheckoutPage() {
       const order = await ordersApi.createOrder(orderData);
       setOrderId(order.id);
 
-      // Crear PaymentIntent en Stripe
+      // Create PaymentIntent in Stripe
       const paymentIntent = await paymentsApi.createPaymentIntent(order.id, total);
 
-      // Redirigir a Stripe Checkout (implementar en fase siguiente)
-      // Por ahora, mostrar confirmación temporal
+      // Redirect to Stripe Checkout (to implement in the next phase)
+      // For now, show a temporary confirmation
       localStorage.setItem('pendingOrder', JSON.stringify(order));
       localStorage.setItem('pendingPaymentIntent', JSON.stringify(paymentIntent));
 
-      // Limpiar carrito
+      // Clear cart
       clear();
 
-      // Redirigir a confirmación
+      // Redirect to confirmation
       router.push(`/checkout/confirm?orderId=${order.id}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al procesar el pedido');
+      setError(err instanceof Error ? err.message : 'Error processing your order');
       console.error(err);
     } finally {
       setLoading(false);
@@ -150,9 +150,9 @@ export default function CheckoutPage() {
       <div className="min-h-screen bg-white">
         <div className="max-w-6xl mx-auto px-4 py-12">
           <div className="text-center">
-            <p className="text-gray-600 mb-4">Tu carrito está vacío</p>
+            <p className="text-gray-600 mb-4">Your cart is empty</p>
             <a href="/shop" className="text-primary font-semibold hover:underline">
-              Volver a comprar
+              Back to shop
             </a>
           </div>
         </div>
@@ -168,7 +168,7 @@ export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+        <h1 className="font-serif text-3xl font-bold text-chocolate mb-8">Checkout</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Form */}
@@ -180,9 +180,9 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              {/* Información de Contacto */}
+              {/* Contact Information */}
               <div>
-                <h2 className="text-xl font-bold mb-4">Información de Contacto</h2>
+                <h2 className="text-xl font-bold mb-4">Contact Information</h2>
                 <div className="space-y-4">
                   <div>
                     <input
@@ -199,7 +199,7 @@ export default function CheckoutPage() {
                     <input
                       type="text"
                       name="name"
-                      placeholder="Nombre Completo *"
+                      placeholder="Full Name *"
                       value={formData.name}
                       onChange={handleInputChange}
                       className={inputClass('name')}
@@ -210,7 +210,7 @@ export default function CheckoutPage() {
                     <input
                       type="tel"
                       name="phone"
-                      placeholder="Teléfono"
+                      placeholder="Phone"
                       value={formData.phone}
                       onChange={handleInputChange}
                       className={inputClass('phone')}
@@ -220,15 +220,15 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Dirección de Entrega */}
+              {/* Delivery Address */}
               <div>
-                <h2 className="text-xl font-bold mb-4">Dirección de Entrega</h2>
+                <h2 className="text-xl font-bold mb-4">Delivery Address</h2>
                 <div className="space-y-4">
                   <div>
                     <input
                       type="text"
                       name="address"
-                      placeholder="Dirección *"
+                      placeholder="Address *"
                       value={formData.address}
                       onChange={handleInputChange}
                       className={inputClass('address')}
@@ -239,7 +239,7 @@ export default function CheckoutPage() {
                     <input
                       type="text"
                       name="city"
-                      placeholder="Ciudad"
+                      placeholder="City"
                       value={formData.city}
                       onChange={handleInputChange}
                       className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -247,7 +247,7 @@ export default function CheckoutPage() {
                     <input
                       type="text"
                       name="zip"
-                      placeholder="ZIP/Código Postal"
+                      placeholder="ZIP/Postal Code"
                       value={formData.zip}
                       onChange={handleInputChange}
                       className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -259,16 +259,16 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   >
-                    <option value="US">Estados Unidos</option>
-                    <option value="CA">Canadá</option>
-                    <option value="MX">México</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="MX">Mexico</option>
                   </select>
                 </div>
               </div>
 
-              {/* Fecha de Entrega */}
+              {/* Delivery Date */}
               <div>
-                <h2 className="text-xl font-bold mb-4">Fecha de Entrega Deseada</h2>
+                <h2 className="text-xl font-bold mb-4">Preferred Delivery Date</h2>
                 <input
                   type="date"
                   name="deliveryDate"
@@ -280,12 +280,12 @@ export default function CheckoutPage() {
                 {fieldErrors.deliveryDate && <p className="text-xs text-red-600 mt-1">{fieldErrors.deliveryDate}</p>}
               </div>
 
-              {/* Notas */}
+              {/* Additional Notes */}
               <div>
-                <h2 className="text-xl font-bold mb-4">Notas Adicionales</h2>
+                <h2 className="text-xl font-bold mb-4">Additional Notes</h2>
                 <textarea
                   name="notes"
-                  placeholder="Notas para la elaboración del pedido..."
+                  placeholder="Notes for preparing your order..."
                   value={formData.notes}
                   onChange={handleInputChange}
                   rows={3}
@@ -298,8 +298,11 @@ export default function CheckoutPage() {
                 disabled={loading}
                 className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Procesando...' : 'Continuar al Pago'}
+                {loading ? 'Processing...' : 'Continue to Payment'}
               </button>
+              <p className="text-center text-xs text-chocolate/50 flex items-center justify-center gap-1.5">
+                <span aria-hidden>🔒</span> Secure checkout · Your information is protected
+              </p>
             </form>
           </div>
 

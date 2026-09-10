@@ -44,7 +44,7 @@ export default function CategoryGrid() {
   if (categories.length === 0) {
     return (
       <div className="text-center py-16 text-chocolate/60">
-        Todavía no hay categorías cargadas.
+        No categories available yet.
       </div>
     );
   }
@@ -55,7 +55,7 @@ export default function CategoryGrid() {
         const visual = getCategoryVisual(category.slug, i);
         return (
           <Link key={category.id} href={`/shop/${category.slug}`} className="group block">
-            <div className="bg-white rounded-2xl overflow-hidden shadow-sm group-hover:shadow-xl group-hover:-translate-y-1 transition h-full flex flex-col">
+            <div className="bg-white rounded-2xl overflow-hidden shadow-sm ring-1 ring-chocolate/5 group-hover:shadow-xl group-hover:-translate-y-1 transition h-full flex flex-col">
               {category.image ? (
                 <img src={category.image} alt={category.name} className="w-full h-36 object-cover" />
               ) : (
@@ -66,7 +66,7 @@ export default function CategoryGrid() {
               <div className="p-5 flex-1 flex flex-col">
                 <h3 className="font-serif font-semibold text-lg text-chocolate mb-1">{category.name}</h3>
                 <p className="text-sm text-chocolate/60 mb-3 flex-1">{category.description}</p>
-                <p className="font-bold text-primary">Desde ${category.basePrice.toFixed(2)}</p>
+                <p className="font-bold text-primary">From ${category.basePrice.toFixed(2)}</p>
               </div>
             </div>
           </Link>
