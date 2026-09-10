@@ -9,6 +9,8 @@ import { OrderStatus } from '@/types';
 interface Order {
   id: string;
   status: OrderStatus;
+  subtotal: number;
+  expressFee: number;
   total: number;
   customer: any;
   items: any[];
@@ -288,8 +290,14 @@ export default function AdminOrderDetailPage() {
             <div className="space-y-3 border-t pt-4">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal:</span>
-                <span className="font-medium text-gray-900">${(order.total * 0.85).toFixed(2)}</span>
+                <span className="font-medium text-gray-900">${order.subtotal?.toFixed(2)}</span>
               </div>
+              {order.expressFee > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Express Fee:</span>
+                  <span className="font-medium text-gray-900">${order.expressFee?.toFixed(2)}</span>
+                </div>
+              )}
               <div className="flex justify-between border-b pb-3">
                 <span className="text-gray-600">Total:</span>
                 <span className="text-lg font-bold text-gray-900">${order.total?.toFixed(2)}</span>
