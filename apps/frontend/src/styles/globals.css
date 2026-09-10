@@ -11,5 +11,9 @@ html {
 }
 
 body {
-  @apply bg-white text-gray-900;
+  @apply bg-cream text-chocolate font-sans;
+}
+
+h1, h2, h3, .font-display {
+  font-family: 'Fraunces', Georgia, serif;
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { productsApi } from '@/lib/api';
 import { Category } from '@/types';
+import { getCategoryVisual } from '@/lib/category-visuals';
 
 export default function CategoryGrid() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -30,7 +31,7 @@ export default function CategoryGrid() {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-48 bg-gray-200 rounded-lg animate-pulse" />
+          <div key={i} className="h-56 bg-chocolate/10 rounded-2xl animate-pulse" />
         ))}
       </div>
     );
@@ -40,22 +41,37 @@ export default function CategoryGrid() {
     return <div className="text-red-600 p-4">{error}</div>;
   }
 
+  if (categories.length === 0) {
+    return (
+      <div className="text-center py-16 text-chocolate/60">
+        Todavía no hay categorías cargadas.
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {categories.map((category) => (
-        <Link key={category.id} href={`/shop/${category.slug}`}>
-          <div className="group rounded-lg border border-gray-200 hover:border-primary p-6 text-center hover:shadow-lg transition cursor-pointer bg-white">
-            {category.image && (
-              <div className="w-full h-32 bg-gray-100 rounded mb-4 flex items-center justify-center">
-                <img src={category.image} alt={category.name} className="max-h-32 object-contain" />
+      {categories.map((category, i) => {
+        const visual = getCategoryVisual(category.slug, i);
+        return (
+          <Link key={category.id} href={`/shop/${category.slug}`} className="group block">
+            <div className="bg-white rounded-2xl overflow-hidden shadow-sm group-hover:shadow-xl group-hover:-translate-y-1 transition h-full flex flex-col">
+              {category.image ? (
+                <img src={category.image} alt={category.name} className="w-full h-36 object-cover" />
+              ) : (
+                <div className={`bg-gradient-to-br ${visual.gradient} h-36 flex items-center justify-center text-5xl`}>
+                  {visual.emoji}
+                </div>
+              )}
+              <div className="p-5 flex-1 flex flex-col">
+                <h3 className="font-serif font-semibold text-lg text-chocolate mb-1">{category.name}</h3>
+                <p className="text-sm text-chocolate/60 mb-3 flex-1">{category.description}</p>
+                <p className="font-bold text-primary">Desde ${category.basePrice.toFixed(2)}</p>
               </div>
-            )}
-            <h3 className="font-semibold text-lg text-gray-900 mb-2">{category.name}</h3>
-            <p className="text-sm text-gray-600 mb-4">{category.description}</p>
-            <p className="font-bold text-primary">${category.basePrice}</p>
-          </div>
-        </Link>
-      ))}
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 }

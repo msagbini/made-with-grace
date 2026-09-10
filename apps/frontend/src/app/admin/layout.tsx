@@ -58,7 +58,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               href={item.href}
               className={`block px-4 py-2 rounded-lg transition ${
                 pathname === item.href
-                  ? 'bg-indigo-600 text-white'
+                  ? 'bg-primary text-white'
                   : 'text-gray-300 hover:bg-gray-800'
               }`}
             >

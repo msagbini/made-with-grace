@@ -52,13 +52,13 @@ export default function ProductDetail({ product }: Props) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Image */}
-      <div className="bg-gray-100 rounded-lg p-4 flex items-center justify-center h-96">
+      <div className="bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl p-4 flex items-center justify-center h-96">
         {imagePreview ? (
-          <img src={imagePreview} alt="Preview" className="max-h-full max-w-full object-contain" />
+          <img src={imagePreview} alt="Preview" className="max-h-full max-w-full object-contain rounded-lg" />
         ) : product.image ? (
-          <img src={product.image} alt={product.name} className="max-h-full max-w-full object-contain" />
+          <img src={product.image} alt={product.name} className="max-h-full max-w-full object-contain rounded-lg" />
         ) : (
-          <div className="text-gray-400">No image</div>
+          <span className="text-8xl">🍪</span>
         )}
       </div>
 

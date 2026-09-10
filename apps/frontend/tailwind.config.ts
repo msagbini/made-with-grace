@@ -9,8 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: '#f59e0b',
+        primary: '#e8890c',
         secondary: '#ec4899',
+        cream: '#FFF8EE',
+        chocolate: '#4A2C1D',
+      },
+      fontFamily: {
+        serif: ['Fraunces', 'Georgia', 'serif'],
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },
