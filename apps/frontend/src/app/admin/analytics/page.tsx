@@ -96,8 +96,8 @@ export default function AdminAnalyticsPage() {
                 : 0;
               return (
                 <div key={status} className="text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mb-3">
-                    <div className="text-2xl font-bold text-indigo-600">{count}</div>
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-3">
+                    <div className="text-2xl font-bold text-primary">{count}</div>
                   </div>
                   <p className="text-sm font-medium text-gray-900">{status}</p>
                   <p className="text-xs text-gray-500">{percentage}% of total</p>
@@ -166,7 +166,7 @@ export default function AdminAnalyticsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div>
             <p className="text-sm font-medium text-gray-600 mb-2">Total Orders</p>
-            <p className="text-4xl font-bold text-indigo-600">{stats?.totalOrders || 0}</p>
+            <p className="text-4xl font-bold text-primary">{stats?.totalOrders || 0}</p>
           </div>
           <div>
             <p className="text-sm font-medium text-gray-600 mb-2">Total Revenue</p>

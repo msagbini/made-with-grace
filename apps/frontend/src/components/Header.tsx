@@ -7,9 +7,16 @@ import { useCartStore } from '@/lib/cart-store';
 export default function Header() {
   const items = useCartStore((state) => state.items);
   const [itemCount, setItemCount] = useState(0);
+  const [bump, setBump] = useState(false);
 
   useEffect(() => {
-    setItemCount(items.reduce((sum, item) => sum + item.quantity, 0));
+    const next = items.reduce((sum, item) => sum + item.quantity, 0);
+    setItemCount((prev) => {
+      if (next !== prev) {
+        setBump(true);
+      }
+      return next;
+    });
   }, [items]);
 
   return (
@@ -31,7 +38,10 @@ export default function Header() {
           <Link href="/cart" className="relative text-sm sm:text-base font-medium text-chocolate hover:text-primary transition flex items-center gap-1">
             <span>Cart</span>
             {itemCount > 0 && (
-              <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-primary rounded-full">
+              <span
+                className={`inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-primary rounded-full ${bump ? 'animate-pop' : ''}`}
+                onAnimationEnd={() => setBump(false)}
+              >
                 {itemCount}
               </span>
             )}

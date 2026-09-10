@@ -248,7 +248,7 @@ export default function AdminOrderDetailPage() {
                   id="status"
                   value={newStatus}
                   onChange={(e) => setNewStatus(e.target.value as OrderStatus)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {statusOptions.map((status) => (
                     <option key={status} value={status}>
@@ -267,7 +267,7 @@ export default function AdminOrderDetailPage() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="Add notes about this order..."
                 />
               </div>
@@ -275,7 +275,7 @@ export default function AdminOrderDetailPage() {
               <button
                 onClick={handleUpdateStatus}
                 disabled={isUpdating}
-                className="w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition font-medium"
+                className="w-full py-2 bg-primary text-white rounded-lg hover:bg-primary/90 disabled:bg-gray-400 disabled:cursor-not-allowed transition font-medium"
               >
                 {isUpdating ? 'Updating...' : 'Update Order'}
               </button>

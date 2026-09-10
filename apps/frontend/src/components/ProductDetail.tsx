@@ -135,7 +135,7 @@ export default function ProductDetail({ product }: Props) {
           <p className="text-chocolate/60 mb-6">{product.description}</p>
 
           {hasErrors && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+            <div className="animate-shake mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
               Please fix the fields marked below before continuing.
             </div>
           )}

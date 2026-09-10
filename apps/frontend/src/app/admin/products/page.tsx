@@ -145,7 +145,7 @@ export default function AdminProductsPage() {
               active: true,
             });
           }}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+          className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
         >
           {showForm ? 'Cancel' : 'Add Product'}
         </button>
@@ -165,7 +165,7 @@ export default function AdminProductsPage() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div>
@@ -175,7 +175,7 @@ export default function AdminProductsPage() {
                 value={formData.slug}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div>
@@ -186,7 +186,7 @@ export default function AdminProductsPage() {
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div>
@@ -194,7 +194,7 @@ export default function AdminProductsPage() {
               <select
                 value={formData.categoryId}
                 onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               >
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
@@ -209,7 +209,7 @@ export default function AdminProductsPage() {
                 type="url"
                 value={formData.image}
                 onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
             <div className="md:col-span-2 flex items-center gap-2">
@@ -224,7 +224,7 @@ export default function AdminProductsPage() {
             <div className="md:col-span-2">
               <button
                 type="submit"
-                className="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                className="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
               >
                 {editingId ? 'Update Product' : 'Create Product'}
               </button>
@@ -246,7 +246,7 @@ export default function AdminProductsPage() {
                 setPage(1);
               }}
               placeholder="Search products..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
           <div>
@@ -257,7 +257,7 @@ export default function AdminProductsPage() {
                 setCategoryFilter(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="">All Categories</option>
               {categories.map((cat) => (
@@ -304,7 +304,7 @@ export default function AdminProductsPage() {
                     <td className="px-6 py-4 text-sm space-x-2">
                       <button
                         onClick={() => handleEdit(product)}
-                        className="text-indigo-600 hover:text-indigo-900"
+                        className="text-primary hover:text-chocolate"
                       >
                         Edit
                       </button>

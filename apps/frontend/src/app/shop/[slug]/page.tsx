@@ -75,8 +75,13 @@ export default function CategoryPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {category.products.map((product) => (
-              <Link key={product.id} href={`/product/${product.slug}`} className="group block">
+            {category.products.map((product, i) => (
+              <Link
+                key={product.id}
+                href={`/product/${product.slug}`}
+                className="group block animate-fade-in-up"
+                style={{ animationDelay: `${i * 0.08}s` }}
+              >
                 <div className="bg-white rounded-2xl overflow-hidden shadow-sm ring-1 ring-chocolate/5 group-hover:shadow-xl group-hover:-translate-y-1 transition h-full flex flex-col">
                   {product.image ? (
                     <img src={product.image} alt={product.name} className="w-full h-44 object-cover" />

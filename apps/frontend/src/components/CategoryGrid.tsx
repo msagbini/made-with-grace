@@ -54,7 +54,12 @@ export default function CategoryGrid() {
       {categories.map((category, i) => {
         const visual = getCategoryVisual(category.slug, i);
         return (
-          <Link key={category.id} href={`/shop/${category.slug}`} className="group block">
+          <Link
+            key={category.id}
+            href={`/shop/${category.slug}`}
+            className="group block animate-fade-in-up"
+            style={{ animationDelay: `${i * 0.08}s` }}
+          >
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm ring-1 ring-chocolate/5 group-hover:shadow-xl group-hover:-translate-y-1 transition h-full flex flex-col">
               {category.image ? (
                 <img src={category.image} alt={category.name} className="w-full h-36 object-cover" />

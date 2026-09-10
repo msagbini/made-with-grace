@@ -16,31 +16,42 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-amber-100 via-orange-50 to-pink-100">
         {/* Decorative blurred blobs */}
-        <div className="absolute -top-24 -left-24 w-72 h-72 bg-pink-300/40 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-amber-300/40 rounded-full blur-3xl" />
-        <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-fuchsia-300/30 rounded-full blur-2xl" />
+        <div className="animate-drift absolute -top-24 -left-24 w-72 h-72 bg-pink-300/40 rounded-full blur-3xl" />
+        <div className="animate-drift absolute -bottom-24 -right-24 w-96 h-96 bg-amber-300/40 rounded-full blur-3xl" style={{ animationDelay: '-3s' }} />
+        <div className="animate-drift absolute top-1/3 right-1/4 w-40 h-40 bg-fuchsia-300/30 rounded-full blur-2xl" style={{ animationDelay: '-6s' }} />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 text-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo.png"
             alt="Sweet Grace - Cakes & cookies made with love"
-            className="h-40 sm:h-52 w-auto mx-auto mb-8 drop-shadow-xl"
+            className="animate-fade-in-up h-40 sm:h-52 w-auto mx-auto mb-8 drop-shadow-xl"
           />
           <h1 className="sr-only">Sweet Grace</h1>
-          <span className="inline-block bg-white/70 backdrop-blur px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide text-primary uppercase mb-4">
+          <span
+            className="animate-fade-in-up inline-block bg-white/70 backdrop-blur px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide text-primary uppercase mb-4"
+            style={{ animationDelay: '0.1s' }}
+          >
             Handmade · Premium Ingredients
           </span>
-          <p className="text-lg sm:text-xl text-chocolate/70 max-w-xl mx-auto mb-8">
+          <p
+            className="animate-fade-in-up text-lg sm:text-xl text-chocolate/70 max-w-xl mx-auto mb-8"
+            style={{ animationDelay: '0.2s' }}
+          >
             Custom-designed cookies and cakes, baked fresh with love for every special occasion.
           </p>
-          <Link href="/shop">
-            <button className="bg-primary text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-xl hover:-translate-y-0.5 transition">
-              Shop the Full Collection
-            </button>
-          </Link>
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <Link href="/shop">
+              <button className="bg-primary text-white px-8 py-3 rounded-full font-semibold text-lg shadow-lg shadow-primary/30 hover:bg-primary/90 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:shadow-md transition">
+                Shop the Full Collection
+              </button>
+            </Link>
+          </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-10 text-sm text-chocolate/60">
+          <div
+            className="animate-fade-in-up flex flex-wrap items-center justify-center gap-x-8 gap-y-3 mt-10 text-sm text-chocolate/60"
+            style={{ animationDelay: '0.4s' }}
+          >
             <span className="flex items-center gap-1.5">
               <span aria-hidden>🧑‍🍳</span> Handmade to order
             </span>

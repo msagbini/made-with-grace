@@ -83,7 +83,7 @@ export default function AdminOrdersPage() {
                 setPage(1);
               }}
               placeholder="Search by email or name..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
           <div>
@@ -94,7 +94,7 @@ export default function AdminOrdersPage() {
                 setStatus(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="">All Statuses</option>
               {(Object.keys(statusColors) as OrderStatus[]).map((s) => (
@@ -162,7 +162,7 @@ export default function AdminOrdersPage() {
                       <td className="px-6 py-4 text-sm">
                         <Link
                           href={`/admin/orders/${order.id}`}
-                          className="text-indigo-600 hover:text-indigo-900 font-medium"
+                          className="text-primary hover:text-chocolate font-medium"
                         >
                           View
                         </Link>
@@ -193,7 +193,7 @@ export default function AdminOrdersPage() {
                       onClick={() => setPage(p)}
                       className={`px-3 py-1 rounded ${
                         p === page
-                          ? 'bg-indigo-600 text-white'
+                          ? 'bg-primary text-white'
                           : 'border border-gray-300 hover:bg-gray-50'
                       }`}
                     >
