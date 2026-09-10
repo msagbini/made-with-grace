@@ -12,12 +12,23 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
   // CORS
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'https://made-with-grace.vercel.app',
+    'https://made-with-grace-msagbini.vercel.app',
+    process.env.NEXT_PUBLIC_SITE_URL,
+  ].filter(Boolean) as string[];
+
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-    ],
+    origin: (origin, callback) => {
+      // Allow non-browser requests (no Origin header) and any Vercel preview/production deployment
+      if (!origin || allowedOrigins.includes(origin) || /\.vercel\.app$/.test(new URL(origin).hostname)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Origin not allowed by CORS: ${origin}`));
+      }
+    },
     credentials: true,
   });
 

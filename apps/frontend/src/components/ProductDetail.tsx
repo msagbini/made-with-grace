@@ -3,17 +3,22 @@
 import { useState } from 'react';
 import { Product } from '@/types';
 import { useCartStore } from '@/lib/cart-store';
+import CookiePreview, { CookieSize } from '@/components/CookiePreview';
 
 interface Props {
   product: Product;
 }
 
+const SIZE_OPTIONS: CookieSize[] = ['Pequeña', 'Mediana', 'Grande'];
+
 export default function ProductDetail({ product }: Props) {
   const [quantity, setQuantity] = useState(1);
+  const [size, setSize] = useState<CookieSize>('Mediana');
   const [expressApplied, setExpressApplied] = useState(false);
   const [customizations, setCustomizations] = useState<Record<string, any>>({});
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const addItem = useCartStore((state) => state.addItem);
 
@@ -22,44 +27,105 @@ export default function ProductDetail({ product }: Props) {
   const expressFee = expressApplied ? subtotal * 0.5 : 0;
   const total = subtotal + expressFee;
 
+  const colorCustom = product.customizations.find((c) => c.type === 'color');
+  const messageCustom = product.customizations.find((c) => c.type === 'text');
+  const selectCustom = product.customizations.find((c) => c.type === 'select');
+
   const handleCustomizationChange = (field: string, value: any) => {
     setCustomizations((prev) => ({
       ...prev,
       [field]: value,
     }));
+    if (errors[field]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const url = event.target?.result as string;
-        setImagePreview(url);
-        handleCustomizationChange('image', file);
-        handleCustomizationChange('imageUrl', url);
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setErrors((prev) => ({ ...prev, foto: 'Solo se permiten archivos de imagen' }));
+      return;
     }
+    if (file.size > 5 * 1024 * 1024) {
+      setErrors((prev) => ({ ...prev, foto: 'La imagen no puede superar 5MB' }));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const url = event.target?.result as string;
+      setImagePreview(url);
+      handleCustomizationChange('image', file);
+      handleCustomizationChange('imageUrl', url);
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next.foto;
+        return next;
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const validate = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    product.customizations.forEach((custom) => {
+      if (!custom.required) return;
+
+      if (custom.type === 'image') {
+        if (!imagePreview) {
+          newErrors.foto = `${custom.label} es obligatoria`;
+        }
+      } else {
+        const value = customizations[custom.label];
+        if (!value || (typeof value === 'string' && value.trim() === '')) {
+          newErrors[custom.label] = `${custom.label} es obligatorio`;
+        } else if (custom.type === 'text' && custom.maxLength && value.length > custom.maxLength) {
+          newErrors[custom.label] = `Máximo ${custom.maxLength} caracteres`;
+        }
+      }
+    });
+
+    if (!Number.isInteger(quantity) || quantity < 1) {
+      newErrors.quantity = 'La cantidad debe ser al menos 1';
+    } else if (quantity > 100) {
+      newErrors.quantity = 'Máximo 100 unidades';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleAddToCart = () => {
-    addItem(product, quantity, customizations, expressApplied);
+    if (!validate()) {
+      return;
+    }
+    const finalCustomizations = { ...customizations, Tamaño: size };
+    addItem(product, quantity, finalCustomizations, expressApplied);
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 2000);
   };
 
+  const hasErrors = Object.keys(errors).length > 0;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {/* Image */}
+      {/* Live preview */}
       <div className="bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl p-4 flex items-center justify-center h-96">
-        {imagePreview ? (
-          <img src={imagePreview} alt="Preview" className="max-h-full max-w-full object-contain rounded-lg" />
-        ) : product.image ? (
-          <img src={product.image} alt={product.name} className="max-h-full max-w-full object-contain rounded-lg" />
-        ) : (
-          <span className="text-8xl">🍪</span>
-        )}
+        <CookiePreview
+          sizeLabel={size}
+          color={colorCustom ? customizations[colorCustom.label] : undefined}
+          message={messageCustom ? customizations[messageCustom.label] : undefined}
+          photoUrl={imagePreview}
+          selection={selectCustom ? customizations[selectCustom.label] : undefined}
+        />
       </div>
 
       {/* Details */}
@@ -68,81 +134,124 @@ export default function ProductDetail({ product }: Props) {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
           <p className="text-gray-600 mb-6">{product.description}</p>
 
+          {hasErrors && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+              Por favor corrige los campos marcados antes de continuar.
+            </div>
+          )}
+
+          {/* Size selector — always available, drives the live preview */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Tamaño</label>
+            <div className="flex gap-2">
+              {SIZE_OPTIONS.map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setSize(option)}
+                  className={`flex-1 px-3 py-2 rounded-lg border-2 font-medium text-sm transition ${
+                    size === option
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-gray-300 text-gray-600 hover:border-gray-400'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Customizations */}
           <div className="space-y-4 mb-6">
             <h3 className="font-semibold text-lg">Personalización</h3>
 
-            {product.customizations.map((custom, i) => (
-              <div key={i}>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {custom.label}
-                  {custom.required && <span className="text-red-600">*</span>}
-                </label>
-
-                {custom.type === 'text' && (
-                  <input
-                    type="text"
-                    maxLength={custom.maxLength}
-                    value={customizations[custom.label] || ''}
-                    onChange={(e) => handleCustomizationChange(custom.label, e.target.value)}
-                    placeholder={`Max ${custom.maxLength} caracteres`}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                )}
-
-                {custom.type === 'color' && (
-                  <div className="flex gap-2">
-                    {custom.allowedValues?.map((color) => (
-                      <button
-                        key={color}
-                        onClick={() => handleCustomizationChange(custom.label, color)}
-                        className={`w-12 h-12 rounded-lg border-2 transition ${
-                          customizations[custom.label] === color
-                            ? 'border-primary'
-                            : 'border-gray-300'
-                        }`}
-                        style={{ backgroundColor: color }}
-                        title={color}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                {custom.type === 'image' && (
-                  <div className="flex flex-col gap-2">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="block w-full text-sm text-gray-500
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-lg file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-primary file:text-white
-                        hover:file:bg-primary/90"
-                    />
-                    {imagePreview && (
-                      <p className="text-sm text-green-600">Imagen cargada ✓</p>
+            {product.customizations.map((custom, i) => {
+              const fieldError = custom.type === 'image' ? errors.foto : errors[custom.label];
+              return (
+                <div key={i}>
+                  <label className="flex items-center justify-between text-sm font-medium text-gray-700 mb-2">
+                    <span>
+                      {custom.label}
+                      {custom.required && <span className="text-red-600">*</span>}
+                    </span>
+                    {custom.type === 'text' && custom.maxLength && (
+                      <span className="text-xs text-gray-400 font-normal">
+                        {(customizations[custom.label]?.length || 0)}/{custom.maxLength}
+                      </span>
                     )}
-                  </div>
-                )}
+                  </label>
 
-                {custom.type === 'select' && (
-                  <select
-                    value={customizations[custom.label] || ''}
-                    onChange={(e) => handleCustomizationChange(custom.label, e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="">Selecciona una opción</option>
-                    {custom.allowedValues?.map((value) => (
-                      <option key={value} value={value}>
-                        {value}
-                      </option>
-                    ))}
-                  </select>
-                )}
-              </div>
-            ))}
+                  {custom.type === 'text' && (
+                    <input
+                      type="text"
+                      maxLength={custom.maxLength}
+                      value={customizations[custom.label] || ''}
+                      onChange={(e) => handleCustomizationChange(custom.label, e.target.value)}
+                      placeholder={`Max ${custom.maxLength} caracteres`}
+                      className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+                        fieldError ? 'border-red-400' : 'border-gray-300'
+                      }`}
+                    />
+                  )}
+
+                  {custom.type === 'color' && (
+                    <div className="flex gap-2">
+                      {custom.allowedValues?.map((color) => (
+                        <button
+                          key={color}
+                          onClick={() => handleCustomizationChange(custom.label, color)}
+                          className={`w-12 h-12 rounded-lg border-2 transition ${
+                            customizations[custom.label] === color
+                              ? 'border-primary'
+                              : 'border-gray-300'
+                          }`}
+                          style={{ backgroundColor: color }}
+                          title={color}
+                        />
+                      ))}
+                    </div>
+                  )}
+
+                  {custom.type === 'image' && (
+                    <div className="flex flex-col gap-2">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="block w-full text-sm text-gray-500
+                          file:mr-4 file:py-2 file:px-4
+                          file:rounded-lg file:border-0
+                          file:text-sm file:font-semibold
+                          file:bg-primary file:text-white
+                          hover:file:bg-primary/90"
+                      />
+                      {imagePreview && (
+                        <p className="text-sm text-green-600">Imagen cargada ✓</p>
+                      )}
+                    </div>
+                  )}
+
+                  {custom.type === 'select' && (
+                    <select
+                      value={customizations[custom.label] || ''}
+                      onChange={(e) => handleCustomizationChange(custom.label, e.target.value)}
+                      className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary ${
+                        fieldError ? 'border-red-400' : 'border-gray-300'
+                      }`}
+                    >
+                      <option value="">Selecciona una opción</option>
+                      {custom.allowedValues?.map((value) => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+
+                  {fieldError && <p className="text-xs text-red-600 mt-1">{fieldError}</p>}
+                </div>
+              );
+            })}
           </div>
 
           {/* Quantity & Express */}
@@ -160,7 +269,9 @@ export default function ProductDetail({ product }: Props) {
                   type="number"
                   value={quantity}
                   onChange={(e) => setQuantity(Math.min(100, Math.max(1, parseInt(e.target.value) || 1)))}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-center"
+                  className={`flex-1 px-3 py-2 border rounded-lg text-center ${
+                    errors.quantity ? 'border-red-400' : 'border-gray-300'
+                  }`}
                 />
                 <button
                   onClick={() => setQuantity(Math.min(100, quantity + 1))}
@@ -169,7 +280,11 @@ export default function ProductDetail({ product }: Props) {
                   +
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-1">Máximo 100 unidades</p>
+              {errors.quantity ? (
+                <p className="text-xs text-red-600 mt-1">{errors.quantity}</p>
+              ) : (
+                <p className="text-xs text-gray-500 mt-1">Máximo 100 unidades</p>
+              )}
             </div>
 
             <label className="flex gap-2 items-center cursor-pointer">
