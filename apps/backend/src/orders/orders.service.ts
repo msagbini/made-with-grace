@@ -61,7 +61,7 @@ export class OrdersService {
           shippingCost: 0,
           tax: 0,
           total: createOrderDto.total,
-          deliveryDate: createOrderDto.deliveryDate,
+          deliveryDate: new Date(createOrderDto.deliveryDate),
           status: 'PENDING',
           notes: orderData.notes,
           items: {
