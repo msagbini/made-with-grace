@@ -14,6 +14,7 @@ interface AdminAuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  hasHydrated: boolean;
 
   // Actions
   login: (email: string, password: string) => Promise<void>;
@@ -23,6 +24,7 @@ interface AdminAuthState {
   setAccessToken: (token: string | null) => void;
   clearError: () => void;
   setError: (error: string) => void;
+  setHasHydrated: (hydrated: boolean) => void;
 }
 
 export const useAdminStore = create<AdminAuthState>()(
@@ -33,6 +35,7 @@ export const useAdminStore = create<AdminAuthState>()(
       isAuthenticated: false,
       isLoading: false,
       error: null,
+      hasHydrated: false,
 
       login: async (email: string, password: string) => {
         set({ isLoading: true, error: null });
@@ -49,6 +52,7 @@ export const useAdminStore = create<AdminAuthState>()(
           }
 
           const data = await response.json();
+          localStorage.setItem('auth_token', data.accessToken);
           set({
             user: {
               id: data.id,
@@ -84,6 +88,7 @@ export const useAdminStore = create<AdminAuthState>()(
           }
 
           const data = await response.json();
+          localStorage.setItem('auth_token', data.accessToken);
           set({
             user: {
               id: data.id,
@@ -105,6 +110,7 @@ export const useAdminStore = create<AdminAuthState>()(
       },
 
       logout: () => {
+        localStorage.removeItem('auth_token');
         set({
           user: null,
           accessToken: null,
@@ -118,6 +124,11 @@ export const useAdminStore = create<AdminAuthState>()(
       },
 
       setAccessToken: (token: string | null) => {
+        if (token) {
+          localStorage.setItem('auth_token', token);
+        } else {
+          localStorage.removeItem('auth_token');
+        }
         set({ accessToken: token });
       },
 
@@ -128,6 +139,10 @@ export const useAdminStore = create<AdminAuthState>()(
       setError: (error: string) => {
         set({ error });
       },
+
+      setHasHydrated: (hydrated: boolean) => {
+        set({ hasHydrated: hydrated });
+      },
     }),
     {
       name: 'sweet-grace-admin',
@@ -137,6 +152,9 @@ export const useAdminStore = create<AdminAuthState>()(
         accessToken: state.accessToken,
         isAuthenticated: state.isAuthenticated,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );

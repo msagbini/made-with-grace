@@ -8,24 +8,26 @@ import Link from 'next/link';
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthenticated, user, logout } = useAdminStore();
+  const { isAuthenticated, user, logout, hasHydrated } = useAdminStore();
 
   const isLoginPage = pathname === '/admin/login';
 
   useEffect(() => {
-    // Redirect to login if not authenticated and not already on login page
+    // Wait for the persisted session to load from localStorage before deciding
+    // whether to redirect — otherwise a page refresh always bounces to login.
+    if (!hasHydrated) return;
     if (!isAuthenticated && !isLoginPage) {
       router.push('/admin/login');
     }
-  }, [isAuthenticated, isLoginPage, router]);
+  }, [hasHydrated, isAuthenticated, isLoginPage, router]);
 
   // Show login page without layout
   if (isLoginPage) {
     return <>{children}</>;
   }
 
-  // Don't show layout if not authenticated
-  if (!isAuthenticated) {
+  // Don't show layout until we know whether the session is authenticated
+  if (!hasHydrated || !isAuthenticated) {
     return null;
   }
 
