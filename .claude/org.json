@@ -1,0 +1,12 @@
+{
+  "proyecto": "made-with-grace",
+  "rutas": {
+    "reglas": "docs/qa/reglas-aprendidas.md",
+    "criterios": "docs/qa/reglas-aprendidas.md (y los criterios de Durazno en msagbini/agency docs/criterios-previos-lgs.md)",
+    "hallazgos": "docs/qa/",
+    "marcador": "docs/qa/marcador.md",
+    "rondas": "docs/qa/rondas/",
+    "barrido": "los tests del proyecto (ver docs/qa/contexto.md)",
+    "contexto": "docs/qa/contexto.md"
+  }
+}
